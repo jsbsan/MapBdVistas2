@@ -1,0 +1,228 @@
+' Gambas class file
+
+Public Datosresultado As Result
+
+Public PunteroPosicionGridviewHorizontal As Integer
+
+Property enfermo As EnfermoVO
+Private henfermo As EnfermoVO
+
+Private manejadorExpediente As New AdaptadaExpedienteDAO
+
+Private Function enfermo_Read() As EnfermoVO
+
+  Return henfermo
+
+End
+
+Private Sub enfermo_Write(Value As EnfermoVO)
+
+  henfermo = Value
+
+End
+
+Public Sub Form_Open()
+
+  Dim resultado As Result
+
+  'resultado = manejadorExpediente.BuscarIgualIdEnfermo(Me.enfermo.idenfermo)
+
+  manejadorExpediente.gridFormatearFilas(GridViewExpHorizontal)
+  Mostrar()
+  ButtonPrimero_Click()
+
+End
+
+Public Sub Mostrar()
+
+  manejadorExpediente.ColorFilaImPar = Color.orange
+  manejadorExpediente.ColorFilaPar = Color.White
+
+  If Me.enfermo.idenfermo = "" Then
+    Message.Info("Ficha incompleta del enfermo, necesito que tenga un valor numerico en el idenfermo ")
+  Endif
+  Datosresultado = manejadorExpediente.BuscarIgualIdEnfermo(Me.enfermo.idenfermo)
+  manejadorExpediente.MostrarGridView(GridViewExpediente,, Datosresultado)
+
+End
+
+Public Sub ButtonSalir_Click()
+
+  Me.Close()
+
+End
+
+'------------------------------------------------
+' Operaciones....
+'------------------------------------------------
+Public Sub Agregar_Click()
+
+  Dim hresult As Result
+  Dim devuelve As Boolean
+  'Cuando agrego un expediente, ya se algunos datos...
+  'por lo tanto lo tengo que tratar como un nuevo registro (con los datos ya conocidos)
+  'y una edicion de estos datos
+
+  Dim nuevo As ExpedienteVO
+  Dim tmpArrayExpediente As ExpedienteVO[]
+  '1º creo el objeto...
+  nuevo = New ExpedienteVO
+
+  '2º le asigno datos conocidos
+  nuevo.idEnfermo = Me.enfermo.idenfermo
+  '3º lo añado
+  manejadorExpediente.registrar(nuevo)
+  '4º lo edito
+  '4.1º busco el ultimo registro insertado de ese enfermo
+  hresult = manejadorExpediente.BuscarIgualIdEnfermo(nuevo.idEnfermo)
+  hresult.MoveLast()
+
+  tmpArrayExpediente = manejadorExpediente.ConvertirResult(hresult)
+
+  '4.2º lo edito
+  devuelve = manejadorExpediente.FormularioModificarRegistroId(tmpArrayExpediente[0].id, tmpArrayExpediente[0], 1)
+
+  If devuelve = False Then
+    'edicion cancelada....
+    'tengo que borrar el registro
+    manejadorExpediente.BorrarId(nuevo.id)
+  Endif
+
+  '4.3º lo muestro...
+  Mostrar()
+
+End
+
+Public Sub Editar_Click()
+
+  Dim tmpRegistro As ExpedienteVO
+  Dim devuelve As Boolean
+
+  tmpRegistro = manejadorExpediente.filaSeleccionadaVO()
+
+  If IsNull(tmpRegistro) Then
+    Return
+  Else
+
+    devuelve = manejadorExpediente.FormularioModificarRegistroId(tmpRegistro.id, tmpRegistro, 1)
+
+    If devuelve Then
+      Mostrar()
+
+    Endif
+
+  Endif
+
+End
+
+Public Sub Borrar_Click()
+
+  Dim tmpRegistro As ExpedienteVO
+
+  tmpRegistro = manejadorExpediente.filaSeleccionadaVO()
+
+  If IsNull(tmpRegistro) Then
+    Return
+  Else
+    manejadorExpediente.BorrarId(tmpRegistro.id)
+    'tambien hay que borrar el expediente....
+    Mostrar()
+  Endif
+
+End
+
+Public Sub GridViewExpediente_Select()
+
+  Dim tmpRegistro As ExpedienteVO
+
+  tmpRegistro = manejadorExpediente.filaSeleccionadaVO()
+  ''NOTE: nota o comentario... ancho en formulario horizontal, hay que definirlo
+  ''NOTE: nota o comentario.... crear nuevo metodo para mostrar un registro en el grid horizontal...
+  manejadorExpediente.mostrarRegistroVO(tmpRegistro, GridViewExpHorizontal)
+
+End
+
+Public Sub ButtonPrimero_Click()
+  'note del result, coger el 1º
+
+  Dim tmpRegistro As ExpedienteVO
+
+  Datosresultado = manejadorExpediente.BuscarIgualIdEnfermo(Me.enfermo.idenfermo)
+  Try tmpRegistro = manejadorExpediente.ConvertirResult(Datosresultado)[0]
+
+  If Error Then Return 'no se puede mostrar el 1º registro (es posible que no haya ninguno)
+
+  manejadorExpediente.mostrarRegistroVO(tmpRegistro, GridViewExpHorizontal)
+  PunteroPosicionGridviewHorizontal = 0
+  ValueBoxContador.value = PunteroPosicionGridviewHorizontal + 1
+
+End
+
+Public Sub ButtonUltimo_Click()
+  'note del result, coger el ultimo
+
+  Dim tmpRegistro As ExpedienteVO
+
+  Datosresultado = manejadorExpediente.BuscarIgualIdEnfermo(Me.enfermo.idenfermo)
+  If Datosresultado.count <> 0 Then
+    tmpRegistro = manejadorExpediente.ConvertirResult(Datosresultado)[Datosresultado.max]
+
+    manejadorExpediente.mostrarRegistroVO(tmpRegistro, GridViewExpHorizontal)
+    PunteroPosicionGridviewHorizontal = Datosresultado.max
+    ValueBoxContador.value = PunteroPosicionGridviewHorizontal + 1
+  Endif
+
+End
+
+Public Sub ButtonAtras_Click()
+
+  Dim tmpRegistro As ExpedienteVO
+
+  If PunteroPosicionGridviewHorizontal > 0 Then
+    PunteroPosicionGridviewHorizontal -= 1
+    Datosresultado = manejadorExpediente.BuscarIgualIdEnfermo(Me.enfermo.idenfermo)
+    tmpRegistro = manejadorExpediente.ConvertirResult(Datosresultado)[PunteroPosicionGridviewHorizontal]
+
+    manejadorExpediente.mostrarRegistroVO(tmpRegistro, GridViewExpHorizontal)
+    ValueBoxContador.value = PunteroPosicionGridviewHorizontal + 1
+  Endif
+
+End
+
+Public Sub ButtonAdelante_Click()
+
+  Dim tmpRegistro As ExpedienteVO
+
+  If PunteroPosicionGridviewHorizontal < Datosresultado.Max Then
+    PunteroPosicionGridviewHorizontal += 1
+    Datosresultado = manejadorExpediente.BuscarIgualIdEnfermo(Me.enfermo.idenfermo)
+    tmpRegistro = manejadorExpediente.ConvertirResult(Datosresultado)[PunteroPosicionGridviewHorizontal]
+    manejadorExpediente.mostrarRegistroVO(tmpRegistro, GridViewExpHorizontal)
+    ValueBoxContador.value = PunteroPosicionGridviewHorizontal + 1
+  Endif
+
+End
+
+Public Sub irA(valor As Integer)
+
+  Dim tmpRegistro As ExpedienteVO
+
+  Datosresultado = manejadorExpediente.BuscarIgualIdEnfermo(Me.enfermo.idenfermo)
+  If valor > 0 And valor < Datosresultado.count + 1 Then
+
+    tmpRegistro = manejadorExpediente.ConvertirResult(Datosresultado)[valor - 1]
+    manejadorExpediente.mostrarRegistroVO(tmpRegistro, GridViewExpHorizontal)
+    ValueBoxContador.value = valor
+  Else
+    Message.Info("No puedo acceder a ese registro")
+  Endif
+
+End
+
+Public Sub ValueBoxContador_KeyPress()
+
+  If Key.code = Key.enter Or Key.code = Key.Return Then
+    irA(ValueBoxContador.value)
+  Endif
+
+End

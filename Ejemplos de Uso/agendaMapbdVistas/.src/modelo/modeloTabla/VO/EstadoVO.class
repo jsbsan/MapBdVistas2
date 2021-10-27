@@ -1,0 +1,67 @@
+PROPERTY idestado AS Integer 
+PRIVATE hidestado AS Integer
+
+PROPERTY estado AS String 
+PRIVATE hestado AS String
+
+PROPERTY campo AS string[] 
+PRIVATE hcampo AS new string[]
+
+PROPERTY campotipo AS string[] 
+PRIVATE hcampotipo AS new string[]
+
+PROPERTY campovisible AS string[] 
+PRIVATE hcampovisible AS new string[]
+
+PRIVATE FUNCTION idestado_read() AS Integer
+ RETURN hidestado 
+END 
+ 
+PRIVATE SUB idestado_write(Valor AS Integer)
+ hidestado= Valor 
+END  
+ 
+PRIVATE FUNCTION estado_read() AS String
+ RETURN hestado 
+END 
+ 
+PRIVATE SUB estado_write(Valor AS String)
+ hestado= Valor 
+END  
+ 
+PRIVATE FUNCTION campo_read() AS string[]
+ RETURN hcampo 
+END 
+ 
+PRIVATE SUB campo_write(Valor AS string[])
+ hcampo= Valor 
+END  
+ 
+PRIVATE FUNCTION campotipo_read() AS string[]
+ RETURN hcampotipo 
+END 
+ 
+PRIVATE SUB campotipo_write(Valor AS string[])
+ hcampotipo= Valor 
+END  
+ 
+PRIVATE FUNCTION campovisible_read() AS string[]
+ RETURN hcampovisible 
+END 
+ 
+PRIVATE SUB campovisible_write(Valor AS string[])
+ hcampovisible= Valor 
+END  
+ 
+PUBLIC FUNCTION ConvertirVOaColeccion(dato as EstadoVO) AS collection
+Dim colecciontmp as new collection
+colecciontmp.add(dato.idestado,"idestado")
+colecciontmp.add(dato.estado,"estado")
+return colecciontmp
+end
+PUBLIC FUNCTION ConvertirColeccionaVO(dato as collection) AS EstadoVO
+Dim datoVOtmp as new EstadoVO
+try datoVOtmp.idestado=dato["idestado"]
+try datoVOtmp.estado=dato["estado"]
+return datoVOtmp
+end

@@ -1,0 +1,89 @@
+' Gambas class file
+
+Public manejarTablaPrincipal As New AdaptadaPrincipalDAO ''nota: hemos cambiado PrincipalDAO por AdaptadaPrincipalDAO
+Public manejarVistaCompacta As New CompactaDAO
+
+Public Sub Form_Open()
+
+  manejarTablaPrincipal.MostrarGridView(GridViewTablaGeneral)
+  manejarVistaCompacta.MostrarGridView(GridViewVistaCompleta)
+  coloresGrid(manejarTablaPrincipal)
+  coloresGrid(manejarVistaCompacta)
+
+End
+
+Public Sub coloresGrid(obj As Object)
+
+  obj.ColorFilaImPar = Color.cyan
+  obj.ColorFilaPar = Color.White
+
+End
+
+Public Sub ButtonAgregar_Click()
+
+  manejarTablaPrincipal.FormularioRegistrar(1)
+  manejarTablaPrincipal.MostrarGridView(GridViewTablaGeneral)
+  manejarVistaCompacta.MostrarGridView(GridViewVistaCompleta)
+
+End
+
+Public Sub ButtonEditar_Click()
+  'creamos un objeto para trabajar con los datos de la fila seleccionada del gridviewTablaGeneral
+
+  Dim tmpVO As New PrincipalVO
+  'obtener el VO del registro seleccionado
+  tmpVO = manejarTablaPrincipal.filaSeleccionadaVO()
+
+  If Not IsNull(tmpVO) Then
+    'si hay una fila seleccionada, abrimos formularios para editar datos....
+    manejarTablaPrincipal.FormularioModificarRegistroIdprincipal(tmpVO.idprincipal, tmpvO, 1)
+    'mostramos gridview actualizados
+    manejarTablaPrincipal.MostrarGridView(GridViewTablaGeneral)
+    manejarVistaCompacta.MostrarGridView(GridViewVistaCompleta)
+  Endif
+
+End
+
+Public Sub ButtonBorrar_Click()
+  'creamos un objeto para trabajar con los datos de la fila seleccionada del gridviewTablaGeneral
+
+  Dim tmpVO As New PrincipalVO
+  'obtener el VO del registro seleccionado
+  tmpVO = manejarTablaPrincipal.filaSeleccionadaVO()
+  If Not IsNull(tmpVO) Then
+    manejarTablaPrincipal.BorrarIdprincipal(tmpVO.idprincipal)
+    'mostramos gridview actualizados
+    manejarTablaPrincipal.MostrarGridView(GridViewTablaGeneral)
+    manejarVistaCompacta.MostrarGridView(GridViewVistaCompleta)
+  Endif
+
+End
+
+Public Sub ButtonFiltrar_Click()
+
+  Dim tmpVO As New PrincipalVO
+  Dim numero As String
+  Dim resultadotmp As Result
+  'preguntar por el dni (numero completo o parcial)
+  numero = InputBox("Introduce DNI")
+  '----------------------------------------------------
+  'Mostrar datos filtrados en el gridview de la Tabla
+  '----------------------------------------------------
+  'hacemos la consulta, y nos devuelve un result
+  resultadotmp = manejarTablaPrincipal.BuscarContenidoDni(numero)
+  'mostramos el result, en el gridviewTablaGeneral
+  manejarTablaPrincipal.MostrarGridView(GridViewTablaGeneral,, resultadotmp)
+
+End
+
+Public Sub ButtonImprimirGridTabla_Click()
+
+  manejarTablaPrincipal.ImprimirRapidoTablaHorizontal()
+
+End
+
+Public Sub ButtonImprimirGridVista_Click()
+
+  manejarVistaCompacta.ImprimirRapidoTablaHorizontal()
+
+End

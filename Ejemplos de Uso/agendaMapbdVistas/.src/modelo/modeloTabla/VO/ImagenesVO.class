@@ -1,0 +1,93 @@
+PROPERTY idimagen AS Integer 
+PRIVATE hidimagen AS Integer
+
+PROPERTY idpresupuesto AS INTEGER 
+PRIVATE hidpresupuesto AS INTEGER
+
+PROPERTY ruta AS String 
+PRIVATE hruta AS String
+
+PROPERTY tipo AS INTEGER 
+PRIVATE htipo AS INTEGER
+
+PROPERTY campo AS string[] 
+PRIVATE hcampo AS new string[]
+
+PROPERTY campotipo AS string[] 
+PRIVATE hcampotipo AS new string[]
+
+PROPERTY campovisible AS string[] 
+PRIVATE hcampovisible AS new string[]
+
+PRIVATE FUNCTION idimagen_read() AS Integer
+ RETURN hidimagen 
+END 
+ 
+PRIVATE SUB idimagen_write(Valor AS Integer)
+ hidimagen= Valor 
+END  
+ 
+PRIVATE FUNCTION idpresupuesto_read() AS INTEGER
+ RETURN hidpresupuesto 
+END 
+ 
+PRIVATE SUB idpresupuesto_write(Valor AS INTEGER)
+ hidpresupuesto= Valor 
+END  
+ 
+PRIVATE FUNCTION ruta_read() AS String
+ RETURN hruta 
+END 
+ 
+PRIVATE SUB ruta_write(Valor AS String)
+ hruta= Valor 
+END  
+ 
+PRIVATE FUNCTION tipo_read() AS INTEGER
+ RETURN htipo 
+END 
+ 
+PRIVATE SUB tipo_write(Valor AS INTEGER)
+ htipo= Valor 
+END  
+ 
+PRIVATE FUNCTION campo_read() AS string[]
+ RETURN hcampo 
+END 
+ 
+PRIVATE SUB campo_write(Valor AS string[])
+ hcampo= Valor 
+END  
+ 
+PRIVATE FUNCTION campotipo_read() AS string[]
+ RETURN hcampotipo 
+END 
+ 
+PRIVATE SUB campotipo_write(Valor AS string[])
+ hcampotipo= Valor 
+END  
+ 
+PRIVATE FUNCTION campovisible_read() AS string[]
+ RETURN hcampovisible 
+END 
+ 
+PRIVATE SUB campovisible_write(Valor AS string[])
+ hcampovisible= Valor 
+END  
+ 
+PUBLIC FUNCTION ConvertirVOaColeccion(dato as ImagenesVO) AS collection
+Dim colecciontmp as new collection
+colecciontmp.add(dato.idimagen,"idimagen")
+colecciontmp.add(dato.idpresupuesto,"idpresupuesto")
+colecciontmp.add(dato.ruta,"ruta")
+colecciontmp.add(dato.tipo,"tipo")
+return colecciontmp
+end
+PUBLIC FUNCTION ConvertirColeccionaVO(dato as collection) AS ImagenesVO
+Dim datoVOtmp as new ImagenesVO
+try datoVOtmp.idimagen=dato["idimagen"]
+try datoVOtmp.idpresupuesto=dato["idpresupuesto"]
+try datoVOtmp.ruta=dato["ruta"]
+try datoVOtmp.tipo=dato["tipo"]
+return datoVOtmp
+end

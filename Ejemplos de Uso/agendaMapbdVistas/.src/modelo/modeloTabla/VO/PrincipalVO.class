@@ -1,0 +1,132 @@
+PROPERTY idprincipal AS Integer 
+PRIVATE hidprincipal AS Integer
+
+PROPERTY nombre AS String 
+PRIVATE hnombre AS String
+
+PROPERTY apellido AS String 
+PRIVATE hapellido AS String
+
+PROPERTY dni AS String 
+PRIVATE hdni AS String
+
+PROPERTY movil AS INTEGER 
+PRIVATE hmovil AS INTEGER
+
+PROPERTY email AS String 
+PRIVATE hemail AS String
+
+PROPERTY domicilio AS String 
+PRIVATE hdomicilio AS String
+
+PROPERTY campo AS string[] 
+PRIVATE hcampo AS new string[]
+
+PROPERTY campotipo AS string[] 
+PRIVATE hcampotipo AS new string[]
+
+PROPERTY campovisible AS string[] 
+PRIVATE hcampovisible AS new string[]
+
+PRIVATE FUNCTION idprincipal_read() AS Integer
+ RETURN hidprincipal 
+END 
+ 
+PRIVATE SUB idprincipal_write(Valor AS Integer)
+ hidprincipal= Valor 
+END  
+ 
+PRIVATE FUNCTION nombre_read() AS String
+ RETURN hnombre 
+END 
+ 
+PRIVATE SUB nombre_write(Valor AS String)
+ hnombre= Valor 
+END  
+ 
+PRIVATE FUNCTION apellido_read() AS String
+ RETURN hapellido 
+END 
+ 
+PRIVATE SUB apellido_write(Valor AS String)
+ hapellido= Valor 
+END  
+ 
+PRIVATE FUNCTION dni_read() AS String
+ RETURN hdni 
+END 
+ 
+PRIVATE SUB dni_write(Valor AS String)
+ hdni= Valor 
+END  
+ 
+PRIVATE FUNCTION movil_read() AS INTEGER
+ RETURN hmovil 
+END 
+ 
+PRIVATE SUB movil_write(Valor AS INTEGER)
+ hmovil= Valor 
+END  
+ 
+PRIVATE FUNCTION email_read() AS String
+ RETURN hemail 
+END 
+ 
+PRIVATE SUB email_write(Valor AS String)
+ hemail= Valor 
+END  
+ 
+PRIVATE FUNCTION domicilio_read() AS String
+ RETURN hdomicilio 
+END 
+ 
+PRIVATE SUB domicilio_write(Valor AS String)
+ hdomicilio= Valor 
+END  
+ 
+PRIVATE FUNCTION campo_read() AS string[]
+ RETURN hcampo 
+END 
+ 
+PRIVATE SUB campo_write(Valor AS string[])
+ hcampo= Valor 
+END  
+ 
+PRIVATE FUNCTION campotipo_read() AS string[]
+ RETURN hcampotipo 
+END 
+ 
+PRIVATE SUB campotipo_write(Valor AS string[])
+ hcampotipo= Valor 
+END  
+ 
+PRIVATE FUNCTION campovisible_read() AS string[]
+ RETURN hcampovisible 
+END 
+ 
+PRIVATE SUB campovisible_write(Valor AS string[])
+ hcampovisible= Valor 
+END  
+ 
+PUBLIC FUNCTION ConvertirVOaColeccion(dato as PrincipalVO) AS collection
+Dim colecciontmp as new collection
+colecciontmp.add(dato.idprincipal,"idprincipal")
+colecciontmp.add(dato.nombre,"nombre")
+colecciontmp.add(dato.apellido,"apellido")
+colecciontmp.add(dato.dni,"dni")
+colecciontmp.add(dato.movil,"movil")
+colecciontmp.add(dato.email,"email")
+colecciontmp.add(dato.domicilio,"domicilio")
+return colecciontmp
+end
+PUBLIC FUNCTION ConvertirColeccionaVO(dato as collection) AS PrincipalVO
+Dim datoVOtmp as new PrincipalVO
+try datoVOtmp.idprincipal=dato["idprincipal"]
+try datoVOtmp.nombre=dato["nombre"]
+try datoVOtmp.apellido=dato["apellido"]
+try datoVOtmp.dni=dato["dni"]
+try datoVOtmp.movil=dato["movil"]
+try datoVOtmp.email=dato["email"]
+try datoVOtmp.domicilio=dato["domicilio"]
+return datoVOtmp
+end

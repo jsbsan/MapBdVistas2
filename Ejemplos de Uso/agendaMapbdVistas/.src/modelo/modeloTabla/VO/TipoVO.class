@@ -1,0 +1,67 @@
+PROPERTY idtipo AS Integer 
+PRIVATE hidtipo AS Integer
+
+PROPERTY tipo AS String 
+PRIVATE htipo AS String
+
+PROPERTY campo AS string[] 
+PRIVATE hcampo AS new string[]
+
+PROPERTY campotipo AS string[] 
+PRIVATE hcampotipo AS new string[]
+
+PROPERTY campovisible AS string[] 
+PRIVATE hcampovisible AS new string[]
+
+PRIVATE FUNCTION idtipo_read() AS Integer
+ RETURN hidtipo 
+END 
+ 
+PRIVATE SUB idtipo_write(Valor AS Integer)
+ hidtipo= Valor 
+END  
+ 
+PRIVATE FUNCTION tipo_read() AS String
+ RETURN htipo 
+END 
+ 
+PRIVATE SUB tipo_write(Valor AS String)
+ htipo= Valor 
+END  
+ 
+PRIVATE FUNCTION campo_read() AS string[]
+ RETURN hcampo 
+END 
+ 
+PRIVATE SUB campo_write(Valor AS string[])
+ hcampo= Valor 
+END  
+ 
+PRIVATE FUNCTION campotipo_read() AS string[]
+ RETURN hcampotipo 
+END 
+ 
+PRIVATE SUB campotipo_write(Valor AS string[])
+ hcampotipo= Valor 
+END  
+ 
+PRIVATE FUNCTION campovisible_read() AS string[]
+ RETURN hcampovisible 
+END 
+ 
+PRIVATE SUB campovisible_write(Valor AS string[])
+ hcampovisible= Valor 
+END  
+ 
+PUBLIC FUNCTION ConvertirVOaColeccion(dato as TipoVO) AS collection
+Dim colecciontmp as new collection
+colecciontmp.add(dato.idtipo,"idtipo")
+colecciontmp.add(dato.tipo,"tipo")
+return colecciontmp
+end
+PUBLIC FUNCTION ConvertirColeccionaVO(dato as collection) AS TipoVO
+Dim datoVOtmp as new TipoVO
+try datoVOtmp.idtipo=dato["idtipo"]
+try datoVOtmp.tipo=dato["tipo"]
+return datoVOtmp
+end

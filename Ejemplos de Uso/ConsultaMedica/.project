@@ -1,0 +1,17 @@
+# Gambas Project File 3.0
+# Compiled with Gambas 3.5.4
+Title=ConsultaMedica
+Startup=FormEnfermos
+Icon=consultamedica.png
+Version=0.0.2
+Component=gb.image
+Component=gb.qt4
+Component=gb.form
+Component=gb.db
+Component=gb.db.sqlite3
+Component=gb.qt4.ext
+Authors="Julio Sánchez Berro"
+TabSize=2
+Translate=1
+Language=es
+Packager=1

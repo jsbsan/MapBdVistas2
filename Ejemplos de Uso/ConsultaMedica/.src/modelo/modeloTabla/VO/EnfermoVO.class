@@ -1,0 +1,161 @@
+' Gambas class file
+
+Property id As Integer
+Private hid As Integer
+
+Property nombre As String
+Private hnombre As String
+
+Property apellido As String
+Private hapellido As String
+
+Property telefono As String
+Private htelefono As String
+
+Property idenfermo As String
+Private hidenfermo As String
+
+Property campo As String[]
+Private hcampo As New String[]
+
+Property campotipo As String[]
+Private hcampotipo As New String[]
+
+Property campovisible As String[]
+Private hcampovisible As New String[]
+
+Private Function id_read() As Integer
+
+  Return hid
+
+End
+
+Private Sub id_write(Valor As Integer)
+
+  hid = Valor
+
+End
+
+Private Function nombre_read() As String
+
+  Return hnombre
+
+End
+
+Private Sub nombre_write(Valor As String)
+
+  hnombre = Valor
+
+End
+
+Private Function apellido_read() As String
+
+  Return hapellido
+
+End
+
+Private Sub apellido_write(Valor As String)
+
+  hapellido = Valor
+
+End
+
+Private Function telefono_read() As String
+
+  Return htelefono
+
+End
+
+Private Sub telefono_write(Valor As String)
+
+  htelefono = Valor
+
+End
+
+Private Function idenfermo_read() As String
+
+  Return hidenfermo
+
+End
+
+Private Sub idenfermo_write(Valor As String)
+
+  hidenfermo = Valor
+
+End
+
+Private Function campo_read() As String[]
+
+  Return hcampo
+
+End
+
+Private Sub campo_write(Valor As String[])
+
+  hcampo = Valor
+
+End
+
+Private Function campotipo_read() As String[]
+
+  Return hcampotipo
+
+End
+
+Private Sub campotipo_write(Valor As String[])
+
+  hcampotipo = Valor
+
+End
+
+Private Function campovisible_read() As String[]
+
+  Return hcampovisible
+
+End
+
+Private Sub campovisible_write(Valor As String[])
+
+  hcampovisible = Valor
+
+End
+
+Public Function Copia(Optional dato As EnfermoVO) As EnfermoVO
+
+  Dim datoVOtmp As New EnfermoVO
+  Dim datoVOtmpOriginal As EnfermoVO
+
+  If IsNull(dato) Then
+    dato = Me 'se copia a si mismo
+  Endif
+  datoVOtmp.id = dato.id
+  datoVOtmp.nombre = dato.nombre
+  datoVOtmp.apellido = dato.apellido
+  datoVOtmp.telefono = dato.telefono
+  datoVOtmp.idenfermo = dato.idenfermo
+  Return datoVOtmp
+
+End
+
+Public Function ConvertirVOaColeccion(dato As EnfermoVO) As Collection
+
+  Dim colecciontmp As New Collection
+  colecciontmp.add(dato.id, "id")
+  colecciontmp.add(dato.nombre, "nombre")
+  colecciontmp.add(dato.apellido, "apellido")
+  colecciontmp.add(dato.telefono, "telefono")
+  colecciontmp.add(dato.idenfermo, "idenfermo")
+  Return colecciontmp
+
+End
+
+Public Function ConvertirColeccionaVO(dato As Collection) As EnfermoVO
+
+  Dim datoVOtmp As New EnfermoVO
+  Try datoVOtmp.id = dato["id"]
+Try datoVOtmp.nombre = dato["nombre"]
+Try datoVOtmp.apellido = dato["apellido"]
+Try datoVOtmp.telefono = dato["telefono"]
+Try datoVOtmp.idenfermo = dato["idenfermo"]
+Return datoVOtmp
+End

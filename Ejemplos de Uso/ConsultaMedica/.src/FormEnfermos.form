@@ -1,0 +1,62 @@
+# Gambas Form File 3.0
+
+{ Form Form
+  MoveScaled(0,0,64,64)
+  Expand = True
+  Icon = Picture["consultamedica.png"]
+  Arrangement = Arrange.Vertical
+  { MenuEnfermos Menu
+    Text = ("Menu1")
+    { Agregar Menu
+      Text = ("Agregar")
+      Picture = Picture["icon:/16/add"]
+    }
+    { Editar Menu
+      Text = ("Editar")
+      Picture = Picture["icon:/16/edit"]
+    }
+    { Buscar Menu
+      Text = ("Buscar")
+      Picture = Picture["icon:/16/find"]
+    }
+    { Quitarfiltro Menu
+      Text = ("Quitar Filtro")
+      Picture = Picture["icon:/16/filter"]
+    }
+    { VerExpediente Menu
+      Text = ("Ver Expediente")
+      Picture = Picture["icon:/16/text-center"]
+    }
+    { Menuespacio Menu
+    }
+    { Borrar Menu
+      Text = ("Borrar")
+      Picture = Picture["icon:/16/erase"]
+    }
+  }
+  { HBox3 HBox
+    MoveScaled(0,0,56,4)
+    { Label1 Label
+      MoveScaled(2,1,11,3)
+      Expand = True
+      Text = ("Enfermos")
+      Alignment = Align.Center
+    }
+  }
+  { GridViewEnfermo GridView
+    MoveScaled(3,4,53,44)
+    Expand = True
+    PopupMenu = "MenuEnfermos"
+  }
+  { HBox1 HBox
+    MoveScaled(4,53,58,6)
+    { HBox2 HBox
+      MoveScaled(13,1,12,3)
+      Expand = True
+    }
+    { ButtonSalir Button
+      MoveScaled(43,1,11,4)
+      Text = ("Salir")
+    }
+  }
+}

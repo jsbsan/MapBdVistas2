@@ -1,0 +1,67 @@
+PROPERTY idunidadmedida AS Integer 
+PRIVATE hidunidadmedida AS Integer
+
+PROPERTY texto AS String 
+PRIVATE htexto AS String
+
+PROPERTY campo AS string[] 
+PRIVATE hcampo AS new string[]
+
+PROPERTY campotipo AS string[] 
+PRIVATE hcampotipo AS new string[]
+
+PROPERTY campovisible AS string[] 
+PRIVATE hcampovisible AS new string[]
+
+PRIVATE FUNCTION idunidadmedida_read() AS Integer
+ RETURN hidunidadmedida 
+END 
+ 
+PRIVATE SUB idunidadmedida_write(Valor AS Integer)
+ hidunidadmedida= Valor 
+END  
+ 
+PRIVATE FUNCTION texto_read() AS String
+ RETURN htexto 
+END 
+ 
+PRIVATE SUB texto_write(Valor AS String)
+ htexto= Valor 
+END  
+ 
+PRIVATE FUNCTION campo_read() AS string[]
+ RETURN hcampo 
+END 
+ 
+PRIVATE SUB campo_write(Valor AS string[])
+ hcampo= Valor 
+END  
+ 
+PRIVATE FUNCTION campotipo_read() AS string[]
+ RETURN hcampotipo 
+END 
+ 
+PRIVATE SUB campotipo_write(Valor AS string[])
+ hcampotipo= Valor 
+END  
+ 
+PRIVATE FUNCTION campovisible_read() AS string[]
+ RETURN hcampovisible 
+END 
+ 
+PRIVATE SUB campovisible_write(Valor AS string[])
+ hcampovisible= Valor 
+END  
+ 
+PUBLIC FUNCTION ConvertirVOaColeccion(dato as UnidadmedidaVO) AS collection
+Dim colecciontmp as new collection
+colecciontmp.add(dato.idunidadmedida,"idunidadmedida")
+colecciontmp.add(dato.texto,"texto")
+return colecciontmp
+end
+PUBLIC FUNCTION ConvertirColeccionaVO(dato as collection) AS UnidadmedidaVO
+Dim datoVOtmp as new UnidadmedidaVO
+try datoVOtmp.idunidadmedida=dato["idunidadmedida"]
+try datoVOtmp.texto=dato["texto"]
+return datoVOtmp
+end

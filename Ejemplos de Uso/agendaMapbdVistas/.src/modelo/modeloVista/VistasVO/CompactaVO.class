@@ -1,0 +1,93 @@
+' Gambas class file
+
+Property NombreCompleto As String
+Private hNombreCompleto As String
+
+Property email As String
+Private hemail As String
+
+Property campo As String[]
+Private hcampo As New String[]
+
+Property campotipo As String[]
+Private hcampotipo As New String[]
+
+Property campovisible As String[]
+Private hcampovisible As New String[]
+
+Private Function NombreCompleto_read() As String
+
+  Return hNombreCompleto
+
+End
+
+Private Sub NombreCompleto_write(Valor As String)
+
+  hNombreCompleto = Valor
+
+End
+
+Private Function email_read() As String
+
+  Return hemail
+
+End
+
+Private Sub email_write(Valor As String)
+
+  hemail = Valor
+
+End
+
+Private Function campo_read() As String[]
+
+  Return hcampo
+
+End
+
+Private Sub campo_write(Valor As String[])
+
+  hcampo = Valor
+
+End
+
+Private Function campotipo_read() As String[]
+
+  Return hcampotipo
+
+End
+
+Private Sub campotipo_write(Valor As String[])
+
+  hcampotipo = Valor
+
+End
+
+Private Function campovisible_read() As String[]
+
+  Return hcampovisible
+
+End
+
+Private Sub campovisible_write(Valor As String[])
+
+  hcampovisible = Valor
+
+End
+
+Public Function ConvertirVOaColeccion(dato As CompactaVO) As Collection
+
+  Dim colecciontmp As New Collection
+  colecciontmp.add(dato.NombreCompleto, "NombreCompleto")
+  colecciontmp.add(dato.email, "email")
+  Return colecciontmp
+
+End
+
+Public Function ConvertirColeccionaVO(dato As Collection) As CompactaVO
+
+  Dim datoVOtmp As New CompactaVO
+Try datoVOtmp.NombreCompleto = dato["NombreCompleto"]
+Try datoVOtmp.email = dato["email"]
+Return datoVOtmp
+End

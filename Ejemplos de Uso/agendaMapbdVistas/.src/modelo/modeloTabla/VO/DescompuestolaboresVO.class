@@ -1,0 +1,171 @@
+PROPERTY iddescompuesto AS Integer 
+PRIVATE hiddescompuesto AS Integer
+
+PROPERTY idpresupuesto AS INTEGER 
+PRIVATE hidpresupuesto AS INTEGER
+
+PROPERTY idlabor AS INTEGER 
+PRIVATE hidlabor AS INTEGER
+
+PROPERTY precio AS FLOAT 
+PRIVATE hprecio AS FLOAT
+
+PROPERTY idtipo AS INTEGER 
+PRIVATE hidtipo AS INTEGER
+
+PROPERTY comentario AS String 
+PRIVATE hcomentario AS String
+
+PROPERTY idmedicion AS INTEGER 
+PRIVATE hidmedicion AS INTEGER
+
+PROPERTY medicion AS FLOAT 
+PRIVATE hmedicion AS FLOAT
+
+PROPERTY total AS FLOAT 
+PRIVATE htotal AS FLOAT
+
+PROPERTY precioenlazado AS Boolean 
+PRIVATE hprecioenlazado AS Boolean
+
+PROPERTY campo AS string[] 
+PRIVATE hcampo AS new string[]
+
+PROPERTY campotipo AS string[] 
+PRIVATE hcampotipo AS new string[]
+
+PROPERTY campovisible AS string[] 
+PRIVATE hcampovisible AS new string[]
+
+PRIVATE FUNCTION iddescompuesto_read() AS Integer
+ RETURN hiddescompuesto 
+END 
+ 
+PRIVATE SUB iddescompuesto_write(Valor AS Integer)
+ hiddescompuesto= Valor 
+END  
+ 
+PRIVATE FUNCTION idpresupuesto_read() AS INTEGER
+ RETURN hidpresupuesto 
+END 
+ 
+PRIVATE SUB idpresupuesto_write(Valor AS INTEGER)
+ hidpresupuesto= Valor 
+END  
+ 
+PRIVATE FUNCTION idlabor_read() AS INTEGER
+ RETURN hidlabor 
+END 
+ 
+PRIVATE SUB idlabor_write(Valor AS INTEGER)
+ hidlabor= Valor 
+END  
+ 
+PRIVATE FUNCTION precio_read() AS FLOAT
+ RETURN hprecio 
+END 
+ 
+PRIVATE SUB precio_write(Valor AS FLOAT)
+ hprecio= Valor 
+END  
+ 
+PRIVATE FUNCTION idtipo_read() AS INTEGER
+ RETURN hidtipo 
+END 
+ 
+PRIVATE SUB idtipo_write(Valor AS INTEGER)
+ hidtipo= Valor 
+END  
+ 
+PRIVATE FUNCTION comentario_read() AS String
+ RETURN hcomentario 
+END 
+ 
+PRIVATE SUB comentario_write(Valor AS String)
+ hcomentario= Valor 
+END  
+ 
+PRIVATE FUNCTION idmedicion_read() AS INTEGER
+ RETURN hidmedicion 
+END 
+ 
+PRIVATE SUB idmedicion_write(Valor AS INTEGER)
+ hidmedicion= Valor 
+END  
+ 
+PRIVATE FUNCTION medicion_read() AS FLOAT
+ RETURN hmedicion 
+END 
+ 
+PRIVATE SUB medicion_write(Valor AS FLOAT)
+ hmedicion= Valor 
+END  
+ 
+PRIVATE FUNCTION total_read() AS FLOAT
+ RETURN htotal 
+END 
+ 
+PRIVATE SUB total_write(Valor AS FLOAT)
+ htotal= Valor 
+END  
+ 
+PRIVATE FUNCTION precioenlazado_read() AS Boolean
+ RETURN hprecioenlazado 
+END 
+ 
+PRIVATE SUB precioenlazado_write(Valor AS Boolean)
+ hprecioenlazado= Valor 
+END  
+ 
+PRIVATE FUNCTION campo_read() AS string[]
+ RETURN hcampo 
+END 
+ 
+PRIVATE SUB campo_write(Valor AS string[])
+ hcampo= Valor 
+END  
+ 
+PRIVATE FUNCTION campotipo_read() AS string[]
+ RETURN hcampotipo 
+END 
+ 
+PRIVATE SUB campotipo_write(Valor AS string[])
+ hcampotipo= Valor 
+END  
+ 
+PRIVATE FUNCTION campovisible_read() AS string[]
+ RETURN hcampovisible 
+END 
+ 
+PRIVATE SUB campovisible_write(Valor AS string[])
+ hcampovisible= Valor 
+END  
+ 
+PUBLIC FUNCTION ConvertirVOaColeccion(dato as DescompuestolaboresVO) AS collection
+Dim colecciontmp as new collection
+colecciontmp.add(dato.iddescompuesto,"iddescompuesto")
+colecciontmp.add(dato.idpresupuesto,"idpresupuesto")
+colecciontmp.add(dato.idlabor,"idlabor")
+colecciontmp.add(dato.precio,"precio")
+colecciontmp.add(dato.idtipo,"idtipo")
+colecciontmp.add(dato.comentario,"comentario")
+colecciontmp.add(dato.idmedicion,"idmedicion")
+colecciontmp.add(dato.medicion,"medicion")
+colecciontmp.add(dato.total,"total")
+colecciontmp.add(dato.precioenlazado,"precioenlazado")
+return colecciontmp
+end
+PUBLIC FUNCTION ConvertirColeccionaVO(dato as collection) AS DescompuestolaboresVO
+Dim datoVOtmp as new DescompuestolaboresVO
+try datoVOtmp.iddescompuesto=dato["iddescompuesto"]
+try datoVOtmp.idpresupuesto=dato["idpresupuesto"]
+try datoVOtmp.idlabor=dato["idlabor"]
+try datoVOtmp.precio=dato["precio"]
+try datoVOtmp.idtipo=dato["idtipo"]
+try datoVOtmp.comentario=dato["comentario"]
+try datoVOtmp.idmedicion=dato["idmedicion"]
+try datoVOtmp.medicion=dato["medicion"]
+try datoVOtmp.total=dato["total"]
+try datoVOtmp.precioenlazado=dato["precioenlazado"]
+return datoVOtmp
+end

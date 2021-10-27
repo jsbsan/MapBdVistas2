@@ -1,0 +1,67 @@
+PROPERTY idcategoria AS Integer 
+PRIVATE hidcategoria AS Integer
+
+PROPERTY textocapitulo AS String 
+PRIVATE htextocapitulo AS String
+
+PROPERTY campo AS string[] 
+PRIVATE hcampo AS new string[]
+
+PROPERTY campotipo AS string[] 
+PRIVATE hcampotipo AS new string[]
+
+PROPERTY campovisible AS string[] 
+PRIVATE hcampovisible AS new string[]
+
+PRIVATE FUNCTION idcategoria_read() AS Integer
+ RETURN hidcategoria 
+END 
+ 
+PRIVATE SUB idcategoria_write(Valor AS Integer)
+ hidcategoria= Valor 
+END  
+ 
+PRIVATE FUNCTION textocapitulo_read() AS String
+ RETURN htextocapitulo 
+END 
+ 
+PRIVATE SUB textocapitulo_write(Valor AS String)
+ htextocapitulo= Valor 
+END  
+ 
+PRIVATE FUNCTION campo_read() AS string[]
+ RETURN hcampo 
+END 
+ 
+PRIVATE SUB campo_write(Valor AS string[])
+ hcampo= Valor 
+END  
+ 
+PRIVATE FUNCTION campotipo_read() AS string[]
+ RETURN hcampotipo 
+END 
+ 
+PRIVATE SUB campotipo_write(Valor AS string[])
+ hcampotipo= Valor 
+END  
+ 
+PRIVATE FUNCTION campovisible_read() AS string[]
+ RETURN hcampovisible 
+END 
+ 
+PRIVATE SUB campovisible_write(Valor AS string[])
+ hcampovisible= Valor 
+END  
+ 
+PUBLIC FUNCTION ConvertirVOaColeccion(dato as CategoriaVO) AS collection
+Dim colecciontmp as new collection
+colecciontmp.add(dato.idcategoria,"idcategoria")
+colecciontmp.add(dato.textocapitulo,"textocapitulo")
+return colecciontmp
+end
+PUBLIC FUNCTION ConvertirColeccionaVO(dato as collection) AS CategoriaVO
+Dim datoVOtmp as new CategoriaVO
+try datoVOtmp.idcategoria=dato["idcategoria"]
+try datoVOtmp.textocapitulo=dato["textocapitulo"]
+return datoVOtmp
+end

@@ -1,0 +1,132 @@
+PROPERTY idmaterial AS Integer 
+PRIVATE hidmaterial AS Integer
+
+PROPERTY fecha AS Date 
+PRIVATE hfecha AS Date
+
+PROPERTY textocorto AS String 
+PRIVATE htextocorto AS String
+
+PROPERTY textolargo AS String 
+PRIVATE htextolargo AS String
+
+PROPERTY lugarcompra AS String 
+PRIVATE hlugarcompra AS String
+
+PROPERTY precio AS FLOAT 
+PRIVATE hprecio AS FLOAT
+
+PROPERTY comentario AS String 
+PRIVATE hcomentario AS String
+
+PROPERTY campo AS string[] 
+PRIVATE hcampo AS new string[]
+
+PROPERTY campotipo AS string[] 
+PRIVATE hcampotipo AS new string[]
+
+PROPERTY campovisible AS string[] 
+PRIVATE hcampovisible AS new string[]
+
+PRIVATE FUNCTION idmaterial_read() AS Integer
+ RETURN hidmaterial 
+END 
+ 
+PRIVATE SUB idmaterial_write(Valor AS Integer)
+ hidmaterial= Valor 
+END  
+ 
+PRIVATE FUNCTION fecha_read() AS Date
+ RETURN hfecha 
+END 
+ 
+PRIVATE SUB fecha_write(Valor AS Date)
+ hfecha= Valor 
+END  
+ 
+PRIVATE FUNCTION textocorto_read() AS String
+ RETURN htextocorto 
+END 
+ 
+PRIVATE SUB textocorto_write(Valor AS String)
+ htextocorto= Valor 
+END  
+ 
+PRIVATE FUNCTION textolargo_read() AS String
+ RETURN htextolargo 
+END 
+ 
+PRIVATE SUB textolargo_write(Valor AS String)
+ htextolargo= Valor 
+END  
+ 
+PRIVATE FUNCTION lugarcompra_read() AS String
+ RETURN hlugarcompra 
+END 
+ 
+PRIVATE SUB lugarcompra_write(Valor AS String)
+ hlugarcompra= Valor 
+END  
+ 
+PRIVATE FUNCTION precio_read() AS FLOAT
+ RETURN hprecio 
+END 
+ 
+PRIVATE SUB precio_write(Valor AS FLOAT)
+ hprecio= Valor 
+END  
+ 
+PRIVATE FUNCTION comentario_read() AS String
+ RETURN hcomentario 
+END 
+ 
+PRIVATE SUB comentario_write(Valor AS String)
+ hcomentario= Valor 
+END  
+ 
+PRIVATE FUNCTION campo_read() AS string[]
+ RETURN hcampo 
+END 
+ 
+PRIVATE SUB campo_write(Valor AS string[])
+ hcampo= Valor 
+END  
+ 
+PRIVATE FUNCTION campotipo_read() AS string[]
+ RETURN hcampotipo 
+END 
+ 
+PRIVATE SUB campotipo_write(Valor AS string[])
+ hcampotipo= Valor 
+END  
+ 
+PRIVATE FUNCTION campovisible_read() AS string[]
+ RETURN hcampovisible 
+END 
+ 
+PRIVATE SUB campovisible_write(Valor AS string[])
+ hcampovisible= Valor 
+END  
+ 
+PUBLIC FUNCTION ConvertirVOaColeccion(dato as MaterialesVO) AS collection
+Dim colecciontmp as new collection
+colecciontmp.add(dato.idmaterial,"idmaterial")
+colecciontmp.add(dato.fecha,"fecha")
+colecciontmp.add(dato.textocorto,"textocorto")
+colecciontmp.add(dato.textolargo,"textolargo")
+colecciontmp.add(dato.lugarcompra,"lugarcompra")
+colecciontmp.add(dato.precio,"precio")
+colecciontmp.add(dato.comentario,"comentario")
+return colecciontmp
+end
+PUBLIC FUNCTION ConvertirColeccionaVO(dato as collection) AS MaterialesVO
+Dim datoVOtmp as new MaterialesVO
+try datoVOtmp.idmaterial=dato["idmaterial"]
+try datoVOtmp.fecha=dato["fecha"]
+try datoVOtmp.textocorto=dato["textocorto"]
+try datoVOtmp.textolargo=dato["textolargo"]
+try datoVOtmp.lugarcompra=dato["lugarcompra"]
+try datoVOtmp.precio=dato["precio"]
+try datoVOtmp.comentario=dato["comentario"]
+return datoVOtmp
+end

@@ -1,0 +1,197 @@
+PROPERTY idpresupuesto AS Integer 
+PRIVATE hidpresupuesto AS Integer
+
+PROPERTY idcliente AS INTEGER 
+PRIVATE hidcliente AS INTEGER
+
+PROPERTY idestado AS INTEGER 
+PRIVATE hidestado AS INTEGER
+
+PROPERTY claveasignada AS String 
+PRIVATE hclaveasignada AS String
+
+PROPERTY valorcalculado AS FLOAT 
+PRIVATE hvalorcalculado AS FLOAT
+
+PROPERTY valorasignado AS FLOAT 
+PRIVATE hvalorasignado AS FLOAT
+
+PROPERTY fecha AS Date 
+PRIVATE hfecha AS Date
+
+PROPERTY descripcioncorta AS String 
+PRIVATE hdescripcioncorta AS String
+
+PROPERTY comentario AS String 
+PRIVATE hcomentario AS String
+
+PROPERTY descripciongeneral AS String 
+PRIVATE hdescripciongeneral AS String
+
+PROPERTY textogarantia AS String 
+PRIVATE htextogarantia AS String
+
+PROPERTY actualizarprecios AS Boolean 
+PRIVATE hactualizarprecios AS Boolean
+
+PROPERTY campo AS string[] 
+PRIVATE hcampo AS new string[]
+
+PROPERTY campotipo AS string[] 
+PRIVATE hcampotipo AS new string[]
+
+PROPERTY campovisible AS string[] 
+PRIVATE hcampovisible AS new string[]
+
+PRIVATE FUNCTION idpresupuesto_read() AS Integer
+ RETURN hidpresupuesto 
+END 
+ 
+PRIVATE SUB idpresupuesto_write(Valor AS Integer)
+ hidpresupuesto= Valor 
+END  
+ 
+PRIVATE FUNCTION idcliente_read() AS INTEGER
+ RETURN hidcliente 
+END 
+ 
+PRIVATE SUB idcliente_write(Valor AS INTEGER)
+ hidcliente= Valor 
+END  
+ 
+PRIVATE FUNCTION idestado_read() AS INTEGER
+ RETURN hidestado 
+END 
+ 
+PRIVATE SUB idestado_write(Valor AS INTEGER)
+ hidestado= Valor 
+END  
+ 
+PRIVATE FUNCTION claveasignada_read() AS String
+ RETURN hclaveasignada 
+END 
+ 
+PRIVATE SUB claveasignada_write(Valor AS String)
+ hclaveasignada= Valor 
+END  
+ 
+PRIVATE FUNCTION valorcalculado_read() AS FLOAT
+ RETURN hvalorcalculado 
+END 
+ 
+PRIVATE SUB valorcalculado_write(Valor AS FLOAT)
+ hvalorcalculado= Valor 
+END  
+ 
+PRIVATE FUNCTION valorasignado_read() AS FLOAT
+ RETURN hvalorasignado 
+END 
+ 
+PRIVATE SUB valorasignado_write(Valor AS FLOAT)
+ hvalorasignado= Valor 
+END  
+ 
+PRIVATE FUNCTION fecha_read() AS Date
+ RETURN hfecha 
+END 
+ 
+PRIVATE SUB fecha_write(Valor AS Date)
+ hfecha= Valor 
+END  
+ 
+PRIVATE FUNCTION descripcioncorta_read() AS String
+ RETURN hdescripcioncorta 
+END 
+ 
+PRIVATE SUB descripcioncorta_write(Valor AS String)
+ hdescripcioncorta= Valor 
+END  
+ 
+PRIVATE FUNCTION comentario_read() AS String
+ RETURN hcomentario 
+END 
+ 
+PRIVATE SUB comentario_write(Valor AS String)
+ hcomentario= Valor 
+END  
+ 
+PRIVATE FUNCTION descripciongeneral_read() AS String
+ RETURN hdescripciongeneral 
+END 
+ 
+PRIVATE SUB descripciongeneral_write(Valor AS String)
+ hdescripciongeneral= Valor 
+END  
+ 
+PRIVATE FUNCTION textogarantia_read() AS String
+ RETURN htextogarantia 
+END 
+ 
+PRIVATE SUB textogarantia_write(Valor AS String)
+ htextogarantia= Valor 
+END  
+ 
+PRIVATE FUNCTION actualizarprecios_read() AS Boolean
+ RETURN hactualizarprecios 
+END 
+ 
+PRIVATE SUB actualizarprecios_write(Valor AS Boolean)
+ hactualizarprecios= Valor 
+END  
+ 
+PRIVATE FUNCTION campo_read() AS string[]
+ RETURN hcampo 
+END 
+ 
+PRIVATE SUB campo_write(Valor AS string[])
+ hcampo= Valor 
+END  
+ 
+PRIVATE FUNCTION campotipo_read() AS string[]
+ RETURN hcampotipo 
+END 
+ 
+PRIVATE SUB campotipo_write(Valor AS string[])
+ hcampotipo= Valor 
+END  
+ 
+PRIVATE FUNCTION campovisible_read() AS string[]
+ RETURN hcampovisible 
+END 
+ 
+PRIVATE SUB campovisible_write(Valor AS string[])
+ hcampovisible= Valor 
+END  
+ 
+PUBLIC FUNCTION ConvertirVOaColeccion(dato as PresupuestoVO) AS collection
+Dim colecciontmp as new collection
+colecciontmp.add(dato.idpresupuesto,"idpresupuesto")
+colecciontmp.add(dato.idcliente,"idcliente")
+colecciontmp.add(dato.idestado,"idestado")
+colecciontmp.add(dato.claveasignada,"claveasignada")
+colecciontmp.add(dato.valorcalculado,"valorcalculado")
+colecciontmp.add(dato.valorasignado,"valorasignado")
+colecciontmp.add(dato.fecha,"fecha")
+colecciontmp.add(dato.descripcioncorta,"descripcioncorta")
+colecciontmp.add(dato.comentario,"comentario")
+colecciontmp.add(dato.descripciongeneral,"descripciongeneral")
+colecciontmp.add(dato.textogarantia,"textogarantia")
+colecciontmp.add(dato.actualizarprecios,"actualizarprecios")
+return colecciontmp
+end
+PUBLIC FUNCTION ConvertirColeccionaVO(dato as collection) AS PresupuestoVO
+Dim datoVOtmp as new PresupuestoVO
+try datoVOtmp.idpresupuesto=dato["idpresupuesto"]
+try datoVOtmp.idcliente=dato["idcliente"]
+try datoVOtmp.idestado=dato["idestado"]
+try datoVOtmp.claveasignada=dato["claveasignada"]
+try datoVOtmp.valorcalculado=dato["valorcalculado"]
+try datoVOtmp.valorasignado=dato["valorasignado"]
+try datoVOtmp.fecha=dato["fecha"]
+try datoVOtmp.descripcioncorta=dato["descripcioncorta"]
+try datoVOtmp.comentario=dato["comentario"]
+try datoVOtmp.descripciongeneral=dato["descripciongeneral"]
+try datoVOtmp.textogarantia=dato["textogarantia"]
+try datoVOtmp.actualizarprecios=dato["actualizarprecios"]
+return datoVOtmp
+end

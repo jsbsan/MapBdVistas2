@@ -1,0 +1,884 @@
+' Gambas class file
+PUBLIC FUNCTION Total() AS integer 
+     Dim conectar as new conexion
+     Dim SQLString as string
+     Dim mRs as result
+     conectar.Conexion()
+    SQLString  = "SELECT idcliente FROM Cliente" 
+try    mRs = conectar.hconn.Exec(SQLString) 
+IF ERROR THEN 
+  Message.Error(" Se ha producido un ERROR al Intentar obtener lista")
+  return -1 
+endif 
+RETURN val(Str$(mRs.Count)) 
+End
+
+PUBLIC function registrar( NuevaCliente as ClienteVO) as boolean
+  Dim conectar as new conexion
+  Dim SQLString As String
+  Dim hresult As result
+   conectar.Conexion()
+     hresult = conectar.hconn.Create("Cliente")
+    hresult["idcliente"]= null 
+    hresult["nombre"]= NuevaCliente.nombre
+    hresult["telefono"]= NuevaCliente.telefono
+    hresult["email"]= NuevaCliente.email
+    hresult["domicilio"]= NuevaCliente.domicilio
+    hresult["comentario"]= NuevaCliente.comentario
+hresult.update
+conectar.hconn.commit
+conectar.desconectar() 
+return true 
+
+END
+
+PUBLIC FUNCTION ModificarIdcliente(editado as Integer,NuevaCliente as ClienteVO) as boolean
+     Dim conectar as new conexion
+     Dim SQLString as string
+  Dim hresult As result
+   conectar.Conexion()
+hresult = conectar.hconn.Edit("Cliente", "idcliente=&1", NuevaCliente.idcliente)
+    hresult["nombre"]= NuevaCliente.nombre
+    hresult["telefono"]= NuevaCliente.telefono
+    hresult["email"]= NuevaCliente.email
+    hresult["domicilio"]= NuevaCliente.domicilio
+    hresult["comentario"]= NuevaCliente.comentario
+ hresult.update
+ conectar.hconn.commit
+END
+PUBLIC function BorrarIdcliente( valor AS Integer ) as boolean
+Dim conectar as new conexion
+Dim SQLString as string
+conectar.Conexion()
+sqlstring="DELETE FROM Cliente WHERE idcliente=&1"
+Try conectar.hconn.Exec(SQLString,valor)
+IF ERROR THEN 
+Message.Error(" Se ha producido un ERROR al intentar Borrar datos, revise ID , " & "\nError: " & error.text)
+return false
+else
+conectar.desconectar()
+return true
+ENDIF
+END
+PUBLIC function BuscarIgual( valor AS integer,campoId as string, optional CampoOrden as string,optional restosql as string ) as result
+     Dim conectar as new conexion
+     Dim SQLString as string
+     Dim mRs as result
+     conectar.Conexion()
+SQLString="Select * From Cliente"
+If CampoOrden=null then 
+   SQlString &= " WHERE " & campoId & " like '" & valor & "' " & restosql
+else 
+   SQlString &= " WHERE " & campoId & " like '" & valor & "' " & restosql & " Order by " & CampoOrden
+endif 
+Try mRs=conectar.hconn.Exec(SQLString) 
+IF ERROR THEN 
+Message.Error(" Se ha producido un ERROR al Buscar datos, " & "\nError:  "   & error.text )
+else 
+return mRs
+ENDIF 
+END
+
+PUBLIC function BuscarIgualIdcliente( valor AS integer,optional CampoOrden as string ) as result
+     Dim conectar as new conexion
+     Dim SQLString as string
+     Dim mRs as result
+     conectar.Conexion()
+SQLString="Select * From Cliente"
+If CampoOrden=null then 
+SQlString &= " WHERE idcliente like '" & valor & "' "
+else
+SQlString &= " WHERE idcliente like '" & valor & "'   Order by " & CampoOrden
+endif 
+Try mRs=conectar.hconn.Exec(SQLString) 
+IF ERROR THEN 
+Message.Error(" Se ha producido un ERROR al Buscar datos, " & "\nError: " & error.text )
+else
+return mRs
+ENDIF
+END
+
+PUBLIC function BuscarContenidoNombre( valor AS String,optional CampoOrden as string ) as result
+     Dim conectar as new conexion
+     Dim SQLString as string
+     Dim mRs as result
+     conectar.Conexion()
+SQLString="Select * From Cliente"
+If CampoOrden=null then 
+   SQlString &= " WHERE nombre like '%" & valor & "%' "
+else 
+   SQlString &= " WHERE nombre like '%" & valor & "%'  Order by " & CampoOrden
+endif 
+Try mRs=conectar.hconn.Exec(SQLString) 
+IF ERROR THEN 
+Message.Error(" Se ha producido un ERROR al Buscar datos, " & "\nError:  "   & error.text )
+else 
+return mRs
+ENDIF
+END
+PUBLIC function BuscarIgualNombre( valor AS String,optional CampoOrden as string ) as result
+     Dim conectar as new conexion
+     Dim SQLString as string
+     Dim mRs as result
+     conectar.Conexion()
+SQLString="Select * From Cliente"
+If CampoOrden=null then 
+SQlString &= " WHERE nombre like '" & valor & "' "
+else
+SQlString &= " WHERE nombre like '" & valor & "'   Order by " & CampoOrden
+endif 
+Try mRs=conectar.hconn.Exec(SQLString) 
+IF ERROR THEN 
+Message.Error(" Se ha producido un ERROR al Buscar datos, " & "\nError: " & error.text )
+else
+return mRs
+ENDIF
+END
+
+PUBLIC function BuscarContenidoTelefono( valor AS String,optional CampoOrden as string ) as result
+     Dim conectar as new conexion
+     Dim SQLString as string
+     Dim mRs as result
+     conectar.Conexion()
+SQLString="Select * From Cliente"
+If CampoOrden=null then 
+   SQlString &= " WHERE telefono like '%" & valor & "%' "
+else 
+   SQlString &= " WHERE telefono like '%" & valor & "%'  Order by " & CampoOrden
+endif 
+Try mRs=conectar.hconn.Exec(SQLString) 
+IF ERROR THEN 
+Message.Error(" Se ha producido un ERROR al Buscar datos, " & "\nError:  "   & error.text )
+else 
+return mRs
+ENDIF
+END
+PUBLIC function BuscarIgualTelefono( valor AS String,optional CampoOrden as string ) as result
+     Dim conectar as new conexion
+     Dim SQLString as string
+     Dim mRs as result
+     conectar.Conexion()
+SQLString="Select * From Cliente"
+If CampoOrden=null then 
+SQlString &= " WHERE telefono like '" & valor & "' "
+else
+SQlString &= " WHERE telefono like '" & valor & "'   Order by " & CampoOrden
+endif 
+Try mRs=conectar.hconn.Exec(SQLString) 
+IF ERROR THEN 
+Message.Error(" Se ha producido un ERROR al Buscar datos, " & "\nError: " & error.text )
+else
+return mRs
+ENDIF
+END
+
+PUBLIC function BuscarContenidoEmail( valor AS String,optional CampoOrden as string ) as result
+     Dim conectar as new conexion
+     Dim SQLString as string
+     Dim mRs as result
+     conectar.Conexion()
+SQLString="Select * From Cliente"
+If CampoOrden=null then 
+   SQlString &= " WHERE email like '%" & valor & "%' "
+else 
+   SQlString &= " WHERE email like '%" & valor & "%'  Order by " & CampoOrden
+endif 
+Try mRs=conectar.hconn.Exec(SQLString) 
+IF ERROR THEN 
+Message.Error(" Se ha producido un ERROR al Buscar datos, " & "\nError:  "   & error.text )
+else 
+return mRs
+ENDIF
+END
+PUBLIC function BuscarIgualEmail( valor AS String,optional CampoOrden as string ) as result
+     Dim conectar as new conexion
+     Dim SQLString as string
+     Dim mRs as result
+     conectar.Conexion()
+SQLString="Select * From Cliente"
+If CampoOrden=null then 
+SQlString &= " WHERE email like '" & valor & "' "
+else
+SQlString &= " WHERE email like '" & valor & "'   Order by " & CampoOrden
+endif 
+Try mRs=conectar.hconn.Exec(SQLString) 
+IF ERROR THEN 
+Message.Error(" Se ha producido un ERROR al Buscar datos, " & "\nError: " & error.text )
+else
+return mRs
+ENDIF
+END
+
+PUBLIC function BuscarContenidoDomicilio( valor AS String,optional CampoOrden as string ) as result
+     Dim conectar as new conexion
+     Dim SQLString as string
+     Dim mRs as result
+     conectar.Conexion()
+SQLString="Select * From Cliente"
+If CampoOrden=null then 
+   SQlString &= " WHERE domicilio like '%" & valor & "%' "
+else 
+   SQlString &= " WHERE domicilio like '%" & valor & "%'  Order by " & CampoOrden
+endif 
+Try mRs=conectar.hconn.Exec(SQLString) 
+IF ERROR THEN 
+Message.Error(" Se ha producido un ERROR al Buscar datos, " & "\nError:  "   & error.text )
+else 
+return mRs
+ENDIF
+END
+PUBLIC function BuscarIgualDomicilio( valor AS String,optional CampoOrden as string ) as result
+     Dim conectar as new conexion
+     Dim SQLString as string
+     Dim mRs as result
+     conectar.Conexion()
+SQLString="Select * From Cliente"
+If CampoOrden=null then 
+SQlString &= " WHERE domicilio like '" & valor & "' "
+else
+SQlString &= " WHERE domicilio like '" & valor & "'   Order by " & CampoOrden
+endif 
+Try mRs=conectar.hconn.Exec(SQLString) 
+IF ERROR THEN 
+Message.Error(" Se ha producido un ERROR al Buscar datos, " & "\nError: " & error.text )
+else
+return mRs
+ENDIF
+END
+
+PUBLIC function BuscarContenidoComentario( valor AS String,optional CampoOrden as string ) as result
+     Dim conectar as new conexion
+     Dim SQLString as string
+     Dim mRs as result
+     conectar.Conexion()
+SQLString="Select * From Cliente"
+If CampoOrden=null then 
+   SQlString &= " WHERE comentario like '%" & valor & "%' "
+else 
+   SQlString &= " WHERE comentario like '%" & valor & "%'  Order by " & CampoOrden
+endif 
+Try mRs=conectar.hconn.Exec(SQLString) 
+IF ERROR THEN 
+Message.Error(" Se ha producido un ERROR al Buscar datos, " & "\nError:  "   & error.text )
+else 
+return mRs
+ENDIF
+END
+PUBLIC function BuscarIgualComentario( valor AS String,optional CampoOrden as string ) as result
+     Dim conectar as new conexion
+     Dim SQLString as string
+     Dim mRs as result
+     conectar.Conexion()
+SQLString="Select * From Cliente"
+If CampoOrden=null then 
+SQlString &= " WHERE comentario like '" & valor & "' "
+else
+SQlString &= " WHERE comentario like '" & valor & "'   Order by " & CampoOrden
+endif 
+Try mRs=conectar.hconn.Exec(SQLString) 
+IF ERROR THEN 
+Message.Error(" Se ha producido un ERROR al Buscar datos, " & "\nError: " & error.text )
+else
+return mRs
+ENDIF
+END
+
+PUBLIC function sql( consulta AS string) As result
+     Dim conectar as new conexion
+     Dim SQLString as string
+     Dim mRs as result
+  conectar.Conexion()
+try mRs=conectar.hconn.Exec(consulta) 
+If error then message.info("Consulta erronea, revisela")
+return mRs
+END
+
+PUBLIC Function informe() as string
+ dim texto as string
+print "Base de datos: PresupuestosPintura.sqlite"
+print "        Tabla: Cliente"
+print "             Campo: idcliente Tipo: Null"
+print "             Campo: nombre Tipo: String"
+print "             Campo: telefono Tipo: String"
+print "             Campo: email Tipo: String"
+print "             Campo: domicilio Tipo: String"
+print "             Campo: comentario Tipo: String"
+ texto= "Base_de_datos:|PresupuestosPintura.sqlite|"
+ texto &= "Tabla:|Cliente"
+ texto &= "|campo:|idcliente|tipo:|Null"
+ texto &= "|campo:|nombre|tipo:|String"
+ texto &= "|campo:|telefono|tipo:|String"
+ texto &= "|campo:|email|tipo:|String"
+ texto &= "|campo:|domicilio|tipo:|String"
+ texto &= "|campo:|comentario|tipo:|String"
+ Return texto 
+end
+
+PUBLIC Function gridFormatearColumnas(grid AS GridView) as gridview
+ Dim f As New Font
+ f.name = "Sans"
+ f.size =  me.sizefont
+   me.formatearFechaIdioma()
+   me.arrayAnchoColumnas = new integer[]
+   WITH grid 
+      .header = 3 
+      .rows.count = 0 
+      .columns.count = 6 
+      .Columns[0].title = ("idcliente")
+      .Columns[0].width = -1'f.textwidth(("idcliente")&"m")
+       me.arrayAnchoColumnas.add(-1)
+      .Columns[1].title = ("nombre")
+      .Columns[1].width = -1'f.textwidth(("nombre")&"m")
+       me.arrayAnchoColumnas.add(-1)
+      .Columns[2].title = ("telefono")
+      .Columns[2].width = -1'f.textwidth(("telefono")&"m")
+       me.arrayAnchoColumnas.add(-1)
+      .Columns[3].title = ("email")
+      .Columns[3].width = -1'f.textwidth(("email")&"m")
+       me.arrayAnchoColumnas.add(-1)
+      .Columns[4].title = ("domicilio")
+      .Columns[4].width = -1'f.textwidth(("domicilio")&"m")
+       me.arrayAnchoColumnas.add(-1)
+      .Columns[5].title = ("comentario")
+      .Columns[5].width = -1'f.textwidth(("comentario")&"m")
+       me.arrayAnchoColumnas.add(-1)
+      .font.name = "Sans"
+      .font.size = me.sizefont 
+      .Background = 16777215 
+      .Foreground = 0 
+   END WITH
+ grid.Mode = Select.Single
+ Return grid 
+END
+
+PUBLIC FUNCTION gridFormatearFilas(grid AS GridView) AS gridview
+ dim titulolargo as string
+Dim f As New Font
+f.name = "Sans"
+f.size = Me.sizefont
+   WITH grid
+      .header = 3 
+      .rows.count =6
+      .columns.count = 2
+      .Columns[0].title = "Campos"
+      .Columns[1].title = "Registro"
+      .font.name = "Sans"
+      .font.size = 10 
+      .Background = 16777215
+      .Foreground = 0 
+   END WITH
+      grid[0,0].text = ("idcliente")
+      grid[0,0].background = color.lightgray
+ If Len(titulolargo) < Len(("idcliente")) Then 
+ titulolargo =("idcliente")
+endif
+      grid[1,0].text = ("nombre")
+      grid[1,0].background = color.lightgray
+ If Len(titulolargo) < Len(("nombre")) Then 
+ titulolargo =("nombre")
+endif
+      grid[2,0].text = ("telefono")
+      grid[2,0].background = color.lightgray
+ If Len(titulolargo) < Len(("telefono")) Then 
+ titulolargo =("telefono")
+endif
+      grid[3,0].text = ("email")
+      grid[3,0].background = color.lightgray
+ If Len(titulolargo) < Len(("email")) Then 
+ titulolargo =("email")
+endif
+      grid[4,0].text = ("domicilio")
+      grid[4,0].background = color.lightgray
+ If Len(titulolargo) < Len(("domicilio")) Then 
+ titulolargo =("domicilio")
+endif
+      grid[5,0].text = ("comentario")
+      grid[5,0].background = color.lightgray
+ If Len(titulolargo) < Len(("comentario")) Then 
+ titulolargo =("comentario")
+endif
+  grid.Columns[0].width=F.textwidth(titulolargo & "m") 
+ Return grid
+END
+
+PUBLIC SUB contenido() as result 
+     Dim conectar as new conexion
+     Dim SQLString as string
+     Dim mRs as result
+     conectar.Conexion()
+     SQLString  = "SELECT * FROM Cliente" 
+     try mRs = conectar.hconn.Exec(SQLString) 
+If error then message.info("Consulta erronea, revisela")
+RETURN mRs 
+End
+
+PUBLIC FUNCTION mostrarRegistro(numero AS Integer, grid AS GridView, OPTIONAL sqlcadena AS String) AS Result
+DIM resultado AS Result
+IF sqlcadena = NULL THEN 
+resultado = contenido()
+ELSE 
+resultado = sql(sqlcadena)
+ENDIF 
+resultado.MoveTo(numero)
+TRY grid[0, 1].text = Str$(resultado!idcliente)
+TRY grid[1, 1].text = Str$(resultado!nombre)
+TRY grid[2, 1].text = Str$(resultado!telefono)
+TRY grid[3, 1].text = Str$(resultado!email)
+TRY grid[4, 1].text = Str$(resultado!domicilio)
+TRY grid[5, 1].text = Str$(resultado!comentario)
+END
+
+PUBLIC FUNCTION mostrarRegistroVO(objetoVO As ClienteVO, grid AS GridView) AS Result
+TRY grid[0, 1].text = Str$(objetoVO.idcliente)
+TRY grid[1, 1].text = Str$(objetoVO.nombre)
+TRY grid[2, 1].text = Str$(objetoVO.telefono)
+TRY grid[3, 1].text = Str$(objetoVO.email)
+TRY grid[4, 1].text = Str$(objetoVO.domicilio)
+TRY grid[5, 1].text = Str$(objetoVO.comentario)
+END
+
+PUBLIC FUNCTION GridResultanteSQL(res AS result, grid AS GridView) AS gridview  
+DIM columna AS Integer
+DIM hField AS ResultField
+DIM a AS Integer
+DIM fila AS Integer
+'defino la regilla
+   WITH grid 
+      .header = 3 
+      .rows.count = 0 
+ try     .columns.count = res.Fields.Count 
+      columna = -1
+       FOR EACH hField IN res.Fields
+      columna = columna + 1
+ try     .Columns[columna].title = Str$(hField.name)
+       NEXT 
+       .font.name = "Sans"
+      .font.size = 10
+      .Background = 16777215 
+      .Foreground = 0 
+   END WITH
+ RETURN grid 
+END
+
+public hresultadoNuevo As Result
+Public gridviewPropio As GridView 'para tener acceso desde clases heredadas
+Public actualiza As Observer
+
+public iconoTrue as string= "icon:/16/apply"
+public iconoFalse as string="icon:/16/cancel"
+Public sizefont As Integer = 10
+
+Public formatoFecha as string
+
+Public Sub MostrarGridView(gridviewtrabajo As GridView, Optional cadenaSQL As String, optional resultado as result)
+  
+  gridFormatearColumnas(gridviewtrabajo)
+  gridviewPropio = gridviewtrabajo
+  
+  if not isnull(resultado) then 
+    hresultadoNuevo=resultado
+   else
+   'no ha habido resultado
+    If cadenaSQL = "" Then 
+      hresultadoNuevo = contenido()
+    Else
+      hresultadoNuevo = sql(cadenaSQL)
+    Endif
+  endif
+   
+   actualiza = New Observer(gridviewPropio) As "Observar"
+  gridviewPropio.tag = Split(NombreCampos()["sintraducidos"], "|")
+  gridviewPropio.rows.count = 0
+  gridviewPropio.rows.count = hresultadoNuevo.count
+  AsignaAnchoGrid()
+End
+
+
+PROPERTY ColorFilaPar AS integer 
+PRIVATE hColorFilaPar AS  integer 
+
+PRIVATE FUNCTION ColorFilaPar_read() AS integer 
+  RETURN hColorFilaPar 
+END  
+
+PRIVATE SUB ColorFilaPar_write(Valor AS integer)
+  hColorFilaPar = Valor 
+END
+PROPERTY ColorFilaImPar AS integer 
+PRIVATE hColorFilaImPar AS  integer 
+
+PRIVATE FUNCTION ColorFilaImPar_read() AS integer 
+  RETURN hColorFilaImPar 
+END  
+
+PRIVATE SUB ColorFilaImPar_write(Valor AS integer)
+  hColorFilaImPar = Valor 
+END
+
+
+
+Public Sub Observar_Data(row As Integer, column As Integer)
+    Dim f As New Font
+    dim datocontenido as variant
+  
+    f.name = "Sans"
+    f.size = me.sizefont
+  
+   '-------------------------------------------
+  'colores....filas impar / par ge regillas
+  '-------------------------------------------
+  If row Mod 2 = 0 Then
+     me.gridviewPropio.Data.Background = me.ColorFilaImPar
+   else
+     me.gridviewPropio.Data.Background =me.ColorFilaPar
+   Endif
+  
+  
+  me.hresultadoNuevo.MoveTo(row)
+  'comprobar si hay datos en TAG
+  If IsNull(me.gridviewPropio.tag) Then 
+ try datocontenido=me.hresultadoNuevo[replace(me.gridviewPropio.columns[column].text,"_",".")]
+ if error then 
+ print "warning !!: nombre de campo que no encuentro "& me.GridViewPropio.tag[column]  & " en la tabla/vista"
+  endif
+ 
+ 
+    if isdate(str$( datocontenido)) then
+      me.gridviewPropio.Data.text = format(date(datocontenido),me.formatofecha)
+    else
+     if isboolean( str$(datocontenido)) then 
+        if datocontenido then 
+          me.gridviewPropio.data.picture=picture[me.iconoTrue]
+        else
+          me.gridviewPropio.data.picture=picture[me.iconoFalse]
+        endif
+      else
+        me.gridviewPropio.Data.text = datocontenido
+      endif
+    endif
+  ''hay datos en  TAG  
+  Else
+ try   datocontenido=me.hresultadoNuevo[replace(me.GridViewPropio.tag[column],"_",".")]
+ if error then 
+ print "warning !!: nombre de campo que no encuentro "& me.GridViewPropio.tag[column]  & " en la tabla/vista"
+  endif
+  
+    if isdate(str$(datocontenido)) then
+      me.gridviewPropio.Data.text = format(date(datocontenido),me.formatofecha)
+    else
+      if isboolean(str$(datocontenido)) then 
+          if datocontenido then 
+            me.gridviewPropio.data.picture=picture[me.iconoTrue]
+          else
+           me.gridviewPropio.data.picture=picture[me.iconoFalse]
+          endif
+        else
+        me.gridviewPropio.Data.text = datocontenido
+      endif
+    endif
+  Endif
+  
+
+  '-----------------------------------------------
+  ' columna con id, con ancho 0, para que no se vea
+  '-----------------------------------------------
+  If Upper$(Me.gridviewPropio.Columns[column].title) = Upper$("id") Then
+     me.arrayAnchoColumnas[column] = 0
+     return 'salgo de la funcion
+  Endif
+
+
+'Compruebo ancho y amplio si es necesario.
+   If me.arrayAnchoColumnas[column]< F.textwidth(me.gridviewPropio.Data.text) Then 
+   me.arrayAnchoColumnas[column] = F.textwidth(me.gridviewPropio.Data.text & "m") 
+  Endif
+ 
+
+
+End
+
+'Array que contiene los valores del ancho de las columnas.
+public arrayAnchoColumnas as new integer[]
+
+'AsignaAnchoGrid
+public sub AsignaAnchoGrid()
+  dim a as integer
+  for a=0 to me.arrayAnchoColumnas.max
+    me.gridviewPropio.Columns[a].width=me.arrayAnchoColumnas[a]
+  next
+end
+
+
+
+public sub formatearFechaIdioma()
+ 
+ If System.Language = "en_US.UTF-8" Then
+      me.formatofecha = "mm/dd/yyyy" 'usa
+    Else
+     me.formatofecha = "dd/mm/yyyy" 'esp
+    Endif
+    
+end
+
+'-----------------------------------------------------
+'añadido ordenar por columnas haciendo click...
+'-----------------------------------------------------
+PUBLIC ordenlistado AS Integer
+
+'PUBLIC SUB Observar_ColumnClick(Column AS Integer)
+'IF me.ordenlistado = 0 THEN
+'me.ord_AZ(Me.gridviewPropio, Column)
+'me.ordenlistado = 1
+'ELSE
+'me.ordenlistado = 0
+'ord_ZA(Me.gridviewPropio, Column)
+'ENDIF
+'END
+
+PUBLIC SUB ord_AZ(grid AS GridView, a AS Integer)
+'a: indica la columna a la que ordenamos
+'grid: es la rejilla que ordenamos
+DIM limite AS Integer
+DIM cambio1 AS String
+DIM i AS Integer
+DIM j AS Integer
+DIM col AS Integer
+
+limite = grid.Rows.COUNT
+IF (grid.Columns.COUNT < a + 1) OR a < 0 THEN
+Message.Error("Error en la columna introducida para ordenar")
+grid.visible = TRUE
+return
+
+ENDIF
+FOR i = 0 TO limite - 1
+FOR j = 0 TO limite - 2
+IF UCase$(Grid[j, a].Text) > UCase$(Grid[j + 1, a].Text) THEN
+
+
+FOR col = 0 TO grid.Columns.COUNT - 1
+cambio1 = Grid[j, col].Text
+Grid[j, col].text = Grid[j + 1, col].Text
+Grid[j + 1, col].text = cambio1
+  
+NEXT
+
+
+ENDIF
+NEXT
+NEXT
+
+
+
+
+END
+
+
+'------------------------------------------------------------------------
+PUBLIC SUB ord_ZA(grid AS GridView, a AS Integer)
+'a: indica la columna a la que ordenamos
+'grid: es la rejilla que ordenamos
+DIM limite AS Integer
+DIM cambio1 AS String
+DIM i AS Integer
+DIM j AS Integer
+DIM col AS Integer
+
+limite = grid.Rows.COUNT
+IF (grid.Columns.COUNT < a + 1) OR a < 0 THEN
+Message.Error("Error en la columna introducida para ordenar")
+grid.visible = TRUE
+return
+
+ENDIF
+FOR i = 0 TO limite - 2
+
+
+FOR j = i TO limite - 1
+IF UCase$(Grid[i, a].Text) <= UCase$(Grid[j, a].Text) THEN
+FOR col = 0 TO grid.Columns.COUNT - 1
+cambio1 = Grid[j, col].Text
+Grid[j, col].text = Grid[i, col].Text
+Grid[i, col].text = cambio1
+NEXT
+ENDIF
+NEXT
+NEXT
+
+
+
+
+
+END
+
+
+
+PUBLIC FUNCTION ConvertirResult(hr as result) AS ClienteVO[]
+Dim datos as new ClienteVO[]
+Dim datotmp as ClienteVO
+While hr.available
+ datotmp=new ClienteVO
+try datotmp.idcliente=hr["idcliente"]
+try datotmp.nombre=hr["nombre"]
+try datotmp.telefono=hr["telefono"]
+try datotmp.email=hr["email"]
+try datotmp.domicilio=hr["domicilio"]
+try datotmp.comentario=hr["comentario"]
+try datos.add(datotmp)
+hr.movenext
+wend
+return datos
+end
+PUBLIC FUNCTION filaSeleccionadaVO() AS ClienteVO
+Dim colecciontmp as new Collection
+Dim fila as integer
+Dim idbuscado as integer
+Dim objTempVO as new ClienteVO
+try fila=gridviewPropio.row
+if ERROR or if FILA=-1  then 
+message.info(("No hay registro seleccionado"))'no hay fila seleccionada
+return null
+endif
+ idbuscado = gridviewPropio[fila, 0].text
+ objTempVO = Me.ConvertirResult(Me.BuscarIgual(idbuscado, "idcliente"))[0]
+Return objTempVO
+end
+Public Function extraeColumnaArray(datos As ClienteVO[], nombrecampo As String) As String
+Dim datotmp As Object
+Dim lista As New String[]
+For Each datotmp In datos
+lista.Add(Object.GetProperty(datotmp, nombrecampo))
+Next
+Return lista.Join(",")
+End
+Public FormularioTitulo as string
+Public sub FormularioRegistrar(numeropaneles as integer)
+ Dim respuesta As Collection
+ Dim codigocampos As string
+Dim tmpVo as new ClienteVO
+FormAutomaticoDinamico.titulo=me.FormularioTitulo
+codigocampos = me.GeneradorCodigoFormulario("registrar")'necesario Me por si uso herencia para adaptar el formulario
+ respuesta = FormAutomaticoDinamico.iniciar(codigocampos,"Nuevo Registro",numeroPaneles)
+if not isnull(respuesta) then
+tmpVo=tmpVo.ConvertirColeccionaVO(respuesta)
+me.registrar(tmpVO)
+else
+return
+endif
+end
+Public function FormularioModificarRegistroIdcliente(identificador as integer,datosEditar as ClienteVO, numeropaneles as integer) as boolean
+ Dim respuesta As Collection
+ Dim codigocampos As string
+Dim tmpVo as new ClienteVO
+codigocampos = me.GeneradorCodigoFormulario("editar",datosEditar)'necesario Me por si uso herencia para adaptar el formulario
+FormAutomaticoDinamico.titulo=me.FormularioTitulo
+ respuesta = FormAutomaticoDinamico.iniciar(codigocampos,"Nuevo Registro",numeroPaneles)
+if not isnull(respuesta) then
+tmpVo=tmpVo.ConvertirColeccionaVO(respuesta)
+tmpVo.idcliente=identificador
+me.ModificarIdcliente(tmpVo.Idcliente,tmpVo)
+return true
+else
+return false 
+endif
+end
+Public function GeneradorCodigoFormulario(tipo as string,optional  datosEditar as ClienteVO) as string
+dim codigocampos as string
+If tipo="registrar" then 
+codigocampos &="null|idcliente|null;"
+codigocampos &="textbox|nombre|" & ("nombre") & "|;"
+codigocampos &="textbox|telefono|" & ("telefono") & "|;"
+codigocampos &="textbox|email|" & ("email") & "|;"
+codigocampos &="textbox|domicilio|" & ("domicilio") & "|;"
+codigocampos &="textbox|comentario|" & ("comentario") & "|;"
+else
+codigocampos &="null|idcliente|null;"
+codigocampos &="textbox|nombre|" & ("nombre") & "|" & datosEditar.nombre & ";"
+codigocampos &="textbox|telefono|" & ("telefono") & "|" & datosEditar.telefono & ";"
+codigocampos &="textbox|email|" & ("email") & "|" & datosEditar.email & ";"
+codigocampos &="textbox|domicilio|" & ("domicilio") & "|" & datosEditar.domicilio & ";"
+codigocampos &="textbox|comentario|" & ("comentario") & "|" & datosEditar.comentario & ";"
+endif
+RETURN codigocampos
+end
+Public function NombreCampos() as Collection
+dim codigocampos as new Collection
+dim textocamposTraducidos as string
+dim textocampos as string
+textocamposTraducidos=("idcliente") & "|" & ("nombre") & "|" & ("telefono") & "|" & ("email") & "|" & ("domicilio") & "|" & ("comentario")
+textocampos="idcliente" & "|" & "nombre" & "|" & "telefono" & "|" & "email" & "|" & "domicilio" & "|" & "comentario"
+codigocampos.add(textocamposTraducidos,"traducidos")
+codigocampos.add(textocampos,"sintraducidos")
+RETURN codigocampos
+end
+
+
+Public Sub ImprimirRapidoTablaHorizontal()
+    dim contenidofichero as string
+  Dim codigo As String
+  Dim a As Integer, fila As Integer, columna As Integer
+  
+  Application.busy = 1
+ 
+  codigo = "<table border=\"1\" style=\"width:100%\">\n"
+  'imprimo titulos
+  codigo &= "<tr>\n" ""
+  For a = 0 To gridviewPropio.columns.Max
+    codigo &= "<td><b>" & gridviewPropio.Columns[a].title & "</b></td>"
+  Next
+  codigo &= "</tr>\n" ""
+  
+  For fila = 0 To gridviewPropio.Rows.Max
+    
+    codigo &= "<tr>\n" ""
+    For columna = 0 To gridviewPropio.columns.Max
+      codigo &= "<td>" & gridviewPropio[fila, columna].text & "</td>"
+    Next
+    codigo &= "</tr>\n" ""
+    
+  Next
+  
+  codigo &= "</table>\n"
+  
+  contenidofichero = File.Load("estructura.html")
+  contenidofichero = Replace$(contenidofichero, "TITULO", ("INFORME"))
+  contenidofichero = Replace$(contenidofichero, "CONTENIDO", codigo)
+  file.Save("/tmp/informe.html", contenidofichero)
+  Desktop.Open("/tmp/informe.html")
+   Application.Busy = 0
+End
+
+Public Sub ImprimirRapidoTablaVertical()
+  dim contenidofichero as string
+  Dim codigo As String
+  Dim a As Integer, fila As Integer, columna As Integer
+  
+  Application.busy = 1
+
+  Try fila = gridviewPropio.Row
+  If fila = -1 Or If Error Then 
+    Application.Busy = 0
+    Message.Info(("Seleccione un registro"))
+    Return
+  Endif
+  
+  codigo &= "<table border=\"1\" >\n"
+  For columna = 0 To gridviewPropio.columns.Max
+    codigo &= "<tr>\n" ""
+    
+    codigo &= "<td><b>" & gridviewPropio.Columns[columna].title & "</b></td>"
+    
+    codigo &= "<td style=\"width:100%\">" & gridviewPropio[fila, columna].text & "</td>"
+    codigo &= "</tr>\n" ""
+    
+  Next
+  codigo &= "</table>\n"  
+  CODIGO &= "<BR><BR>"
+  
+  contenidofichero = File.Load("estructura.html")
+  contenidofichero = Replace$(contenidofichero, "TITULO", ("INFORME"))
+  contenidofichero = Replace$(contenidofichero, "CONTENIDO", codigo)
+  file.Save("/tmp/informe.html", contenidofichero)
+  Desktop.Open("/tmp/informe.html")
+  Application.Busy = 0
+End

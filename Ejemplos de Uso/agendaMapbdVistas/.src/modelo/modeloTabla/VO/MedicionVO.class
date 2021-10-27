@@ -1,0 +1,145 @@
+PROPERTY id AS Integer 
+PRIVATE hid AS Integer
+
+PROPERTY idmedicion AS INTEGER 
+PRIVATE hidmedicion AS INTEGER
+
+PROPERTY descripcion AS String 
+PRIVATE hdescripcion AS String
+
+PROPERTY numeroveces AS FLOAT 
+PRIVATE hnumeroveces AS FLOAT
+
+PROPERTY largo AS FLOAT 
+PRIVATE hlargo AS FLOAT
+
+PROPERTY ancho AS FLOAT 
+PRIVATE hancho AS FLOAT
+
+PROPERTY alto AS FLOAT 
+PRIVATE halto AS FLOAT
+
+PROPERTY total AS FLOAT 
+PRIVATE htotal AS FLOAT
+
+PROPERTY campo AS string[] 
+PRIVATE hcampo AS new string[]
+
+PROPERTY campotipo AS string[] 
+PRIVATE hcampotipo AS new string[]
+
+PROPERTY campovisible AS string[] 
+PRIVATE hcampovisible AS new string[]
+
+PRIVATE FUNCTION id_read() AS Integer
+ RETURN hid 
+END 
+ 
+PRIVATE SUB id_write(Valor AS Integer)
+ hid= Valor 
+END  
+ 
+PRIVATE FUNCTION idmedicion_read() AS INTEGER
+ RETURN hidmedicion 
+END 
+ 
+PRIVATE SUB idmedicion_write(Valor AS INTEGER)
+ hidmedicion= Valor 
+END  
+ 
+PRIVATE FUNCTION descripcion_read() AS String
+ RETURN hdescripcion 
+END 
+ 
+PRIVATE SUB descripcion_write(Valor AS String)
+ hdescripcion= Valor 
+END  
+ 
+PRIVATE FUNCTION numeroveces_read() AS FLOAT
+ RETURN hnumeroveces 
+END 
+ 
+PRIVATE SUB numeroveces_write(Valor AS FLOAT)
+ hnumeroveces= Valor 
+END  
+ 
+PRIVATE FUNCTION largo_read() AS FLOAT
+ RETURN hlargo 
+END 
+ 
+PRIVATE SUB largo_write(Valor AS FLOAT)
+ hlargo= Valor 
+END  
+ 
+PRIVATE FUNCTION ancho_read() AS FLOAT
+ RETURN hancho 
+END 
+ 
+PRIVATE SUB ancho_write(Valor AS FLOAT)
+ hancho= Valor 
+END  
+ 
+PRIVATE FUNCTION alto_read() AS FLOAT
+ RETURN halto 
+END 
+ 
+PRIVATE SUB alto_write(Valor AS FLOAT)
+ halto= Valor 
+END  
+ 
+PRIVATE FUNCTION total_read() AS FLOAT
+ RETURN htotal 
+END 
+ 
+PRIVATE SUB total_write(Valor AS FLOAT)
+ htotal= Valor 
+END  
+ 
+PRIVATE FUNCTION campo_read() AS string[]
+ RETURN hcampo 
+END 
+ 
+PRIVATE SUB campo_write(Valor AS string[])
+ hcampo= Valor 
+END  
+ 
+PRIVATE FUNCTION campotipo_read() AS string[]
+ RETURN hcampotipo 
+END 
+ 
+PRIVATE SUB campotipo_write(Valor AS string[])
+ hcampotipo= Valor 
+END  
+ 
+PRIVATE FUNCTION campovisible_read() AS string[]
+ RETURN hcampovisible 
+END 
+ 
+PRIVATE SUB campovisible_write(Valor AS string[])
+ hcampovisible= Valor 
+END  
+ 
+PUBLIC FUNCTION ConvertirVOaColeccion(dato as MedicionVO) AS collection
+Dim colecciontmp as new collection
+colecciontmp.add(dato.id,"id")
+colecciontmp.add(dato.idmedicion,"idmedicion")
+colecciontmp.add(dato.descripcion,"descripcion")
+colecciontmp.add(dato.numeroveces,"numeroveces")
+colecciontmp.add(dato.largo,"largo")
+colecciontmp.add(dato.ancho,"ancho")
+colecciontmp.add(dato.alto,"alto")
+colecciontmp.add(dato.total,"total")
+return colecciontmp
+end
+PUBLIC FUNCTION ConvertirColeccionaVO(dato as collection) AS MedicionVO
+Dim datoVOtmp as new MedicionVO
+try datoVOtmp.id=dato["id"]
+try datoVOtmp.idmedicion=dato["idmedicion"]
+try datoVOtmp.descripcion=dato["descripcion"]
+try datoVOtmp.numeroveces=dato["numeroveces"]
+try datoVOtmp.largo=dato["largo"]
+try datoVOtmp.ancho=dato["ancho"]
+try datoVOtmp.alto=dato["alto"]
+try datoVOtmp.total=dato["total"]
+return datoVOtmp
+end

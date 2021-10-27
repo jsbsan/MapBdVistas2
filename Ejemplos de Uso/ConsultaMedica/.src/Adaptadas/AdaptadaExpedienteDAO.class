@@ -1,0 +1,12 @@
+' Gambas class file
+
+Inherits ExpedienteDAO
+
+Public Function mostrarRegistroVO(objetoVO As ExpedienteVO, grid As GridView) As Result
+
+  Try grid[0, 1].text = Str$(objetoVO.id)
+  Try grid[1, 1].text = Str$(objetoVO.idEnfermo)
+  Try grid[2, 1].text = Str$(objetoVO.enfermedad)
+  Try grid[3, 1].text = Str$(objetoVO.tratamiento)
+
+End

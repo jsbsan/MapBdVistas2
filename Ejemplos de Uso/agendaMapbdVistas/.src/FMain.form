@@ -1,0 +1,39 @@
+# Gambas Form File 3.0
+
+{ Form Form
+  MoveScaled(0,0,98,78)
+  { GridViewTablaGeneral GridView
+    MoveScaled(2,7,95,34)
+  }
+  { GridViewVistaCompleta GridView
+    MoveScaled(2,43,95,34)
+  }
+  { ButtonAgregar Button
+    MoveScaled(2,0,20,6)
+    Text = ("Agregar")
+    Picture = Picture["icon:/16/add"]
+  }
+  { ButtonEditar Button
+    MoveScaled(23,0,20,6)
+    Text = ("Editar")
+    Picture = Picture["icon:/16/edit"]
+  }
+  { ButtonBorrar Button
+    MoveScaled(44,0,20,6)
+    Text = ("Borrar")
+    Picture = Picture["icon:/16/erase"]
+  }
+  { ButtonFiltrar Button
+    MoveScaled(66,0,20,6)
+    Text = ("Filtrar")
+    Picture = Picture["icon:/16/filter"]
+  }
+  { ButtonImprimirGridTabla Button
+    MoveScaled(88,35,9,6)
+    Picture = Picture["icon:/16/print"]
+  }
+  { ButtonImprimirGridVista Button
+    MoveScaled(88,71,9,6)
+    Picture = Picture["icon:/16/print"]
+  }
+}

@@ -1,0 +1,158 @@
+PROPERTY id AS string 
+PRIVATE hid AS string
+
+PROPERTY idpresupuesto AS string 
+PRIVATE hidpresupuesto AS string
+
+PROPERTY iddescompuesto AS string 
+PRIVATE hiddescompuesto AS string
+
+PROPERTY descripcion AS string 
+PRIVATE hdescripcion AS string
+
+PROPERTY numeroveces AS string 
+PRIVATE hnumeroveces AS string
+
+PROPERTY largo AS string 
+PRIVATE hlargo AS string
+
+PROPERTY ancho AS string 
+PRIVATE hancho AS string
+
+PROPERTY alto AS string 
+PRIVATE halto AS string
+
+PROPERTY medicion_total AS string 
+PRIVATE hmedicion_total AS string
+
+PROPERTY campo AS string[] 
+PRIVATE hcampo AS new string[]
+
+PROPERTY campotipo AS string[] 
+PRIVATE hcampotipo AS new string[]
+
+PROPERTY campovisible AS string[] 
+PRIVATE hcampovisible AS new string[]
+
+PRIVATE FUNCTION id_read() AS string
+ RETURN hid 
+END 
+ 
+PRIVATE SUB id_write(Valor AS string)
+ hid= Valor 
+END  
+ 
+PRIVATE FUNCTION idpresupuesto_read() AS string
+ RETURN hidpresupuesto 
+END 
+ 
+PRIVATE SUB idpresupuesto_write(Valor AS string)
+ hidpresupuesto= Valor 
+END  
+ 
+PRIVATE FUNCTION iddescompuesto_read() AS string
+ RETURN hiddescompuesto 
+END 
+ 
+PRIVATE SUB iddescompuesto_write(Valor AS string)
+ hiddescompuesto= Valor 
+END  
+ 
+PRIVATE FUNCTION descripcion_read() AS string
+ RETURN hdescripcion 
+END 
+ 
+PRIVATE SUB descripcion_write(Valor AS string)
+ hdescripcion= Valor 
+END  
+ 
+PRIVATE FUNCTION numeroveces_read() AS string
+ RETURN hnumeroveces 
+END 
+ 
+PRIVATE SUB numeroveces_write(Valor AS string)
+ hnumeroveces= Valor 
+END  
+ 
+PRIVATE FUNCTION largo_read() AS string
+ RETURN hlargo 
+END 
+ 
+PRIVATE SUB largo_write(Valor AS string)
+ hlargo= Valor 
+END  
+ 
+PRIVATE FUNCTION ancho_read() AS string
+ RETURN hancho 
+END 
+ 
+PRIVATE SUB ancho_write(Valor AS string)
+ hancho= Valor 
+END  
+ 
+PRIVATE FUNCTION alto_read() AS string
+ RETURN halto 
+END 
+ 
+PRIVATE SUB alto_write(Valor AS string)
+ halto= Valor 
+END  
+ 
+PRIVATE FUNCTION medicion_total_read() AS string
+ RETURN hmedicion_total 
+END 
+ 
+PRIVATE SUB medicion_total_write(Valor AS string)
+ hmedicion_total= Valor 
+END  
+ 
+PRIVATE FUNCTION campo_read() AS string[]
+ RETURN hcampo 
+END 
+ 
+PRIVATE SUB campo_write(Valor AS string[])
+ hcampo= Valor 
+END  
+ 
+PRIVATE FUNCTION campotipo_read() AS string[]
+ RETURN hcampotipo 
+END 
+ 
+PRIVATE SUB campotipo_write(Valor AS string[])
+ hcampotipo= Valor 
+END  
+ 
+PRIVATE FUNCTION campovisible_read() AS string[]
+ RETURN hcampovisible 
+END 
+ 
+PRIVATE SUB campovisible_write(Valor AS string[])
+ hcampovisible= Valor 
+END  
+ 
+PUBLIC FUNCTION ConvertirVOaColeccion(dato as VistaMedicionVO) AS collection
+Dim colecciontmp as new collection
+colecciontmp.add(dato.id,"id")
+colecciontmp.add(dato.idpresupuesto,"idpresupuesto")
+colecciontmp.add(dato.iddescompuesto,"iddescompuesto")
+colecciontmp.add(dato.descripcion,"descripcion")
+colecciontmp.add(dato.numeroveces,"numeroveces")
+colecciontmp.add(dato.largo,"largo")
+colecciontmp.add(dato.ancho,"ancho")
+colecciontmp.add(dato.alto,"alto")
+colecciontmp.add(dato.medicion_total,"medicion_total")
+return colecciontmp
+end
+PUBLIC FUNCTION ConvertirColeccionaVO(dato as collection) AS VistaMedicionVO
+Dim datoVOtmp as new VistaMedicionVO
+try datoVOtmp.id=dato["id"]
+try datoVOtmp.idpresupuesto=dato["idpresupuesto"]
+try datoVOtmp.iddescompuesto=dato["iddescompuesto"]
+try datoVOtmp.descripcion=dato["descripcion"]
+try datoVOtmp.numeroveces=dato["numeroveces"]
+try datoVOtmp.largo=dato["largo"]
+try datoVOtmp.ancho=dato["ancho"]
+try datoVOtmp.alto=dato["alto"]
+try datoVOtmp.medicion_total=dato["medicion_total"]
+return datoVOtmp
+end

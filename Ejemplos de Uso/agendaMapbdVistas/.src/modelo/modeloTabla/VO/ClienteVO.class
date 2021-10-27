@@ -1,0 +1,119 @@
+PROPERTY idcliente AS Integer 
+PRIVATE hidcliente AS Integer
+
+PROPERTY nombre AS String 
+PRIVATE hnombre AS String
+
+PROPERTY telefono AS String 
+PRIVATE htelefono AS String
+
+PROPERTY email AS String 
+PRIVATE hemail AS String
+
+PROPERTY domicilio AS String 
+PRIVATE hdomicilio AS String
+
+PROPERTY comentario AS String 
+PRIVATE hcomentario AS String
+
+PROPERTY campo AS string[] 
+PRIVATE hcampo AS new string[]
+
+PROPERTY campotipo AS string[] 
+PRIVATE hcampotipo AS new string[]
+
+PROPERTY campovisible AS string[] 
+PRIVATE hcampovisible AS new string[]
+
+PRIVATE FUNCTION idcliente_read() AS Integer
+ RETURN hidcliente 
+END 
+ 
+PRIVATE SUB idcliente_write(Valor AS Integer)
+ hidcliente= Valor 
+END  
+ 
+PRIVATE FUNCTION nombre_read() AS String
+ RETURN hnombre 
+END 
+ 
+PRIVATE SUB nombre_write(Valor AS String)
+ hnombre= Valor 
+END  
+ 
+PRIVATE FUNCTION telefono_read() AS String
+ RETURN htelefono 
+END 
+ 
+PRIVATE SUB telefono_write(Valor AS String)
+ htelefono= Valor 
+END  
+ 
+PRIVATE FUNCTION email_read() AS String
+ RETURN hemail 
+END 
+ 
+PRIVATE SUB email_write(Valor AS String)
+ hemail= Valor 
+END  
+ 
+PRIVATE FUNCTION domicilio_read() AS String
+ RETURN hdomicilio 
+END 
+ 
+PRIVATE SUB domicilio_write(Valor AS String)
+ hdomicilio= Valor 
+END  
+ 
+PRIVATE FUNCTION comentario_read() AS String
+ RETURN hcomentario 
+END 
+ 
+PRIVATE SUB comentario_write(Valor AS String)
+ hcomentario= Valor 
+END  
+ 
+PRIVATE FUNCTION campo_read() AS string[]
+ RETURN hcampo 
+END 
+ 
+PRIVATE SUB campo_write(Valor AS string[])
+ hcampo= Valor 
+END  
+ 
+PRIVATE FUNCTION campotipo_read() AS string[]
+ RETURN hcampotipo 
+END 
+ 
+PRIVATE SUB campotipo_write(Valor AS string[])
+ hcampotipo= Valor 
+END  
+ 
+PRIVATE FUNCTION campovisible_read() AS string[]
+ RETURN hcampovisible 
+END 
+ 
+PRIVATE SUB campovisible_write(Valor AS string[])
+ hcampovisible= Valor 
+END  
+ 
+PUBLIC FUNCTION ConvertirVOaColeccion(dato as ClienteVO) AS collection
+Dim colecciontmp as new collection
+colecciontmp.add(dato.idcliente,"idcliente")
+colecciontmp.add(dato.nombre,"nombre")
+colecciontmp.add(dato.telefono,"telefono")
+colecciontmp.add(dato.email,"email")
+colecciontmp.add(dato.domicilio,"domicilio")
+colecciontmp.add(dato.comentario,"comentario")
+return colecciontmp
+end
+PUBLIC FUNCTION ConvertirColeccionaVO(dato as collection) AS ClienteVO
+Dim datoVOtmp as new ClienteVO
+try datoVOtmp.idcliente=dato["idcliente"]
+try datoVOtmp.nombre=dato["nombre"]
+try datoVOtmp.telefono=dato["telefono"]
+try datoVOtmp.email=dato["email"]
+try datoVOtmp.domicilio=dato["domicilio"]
+try datoVOtmp.comentario=dato["comentario"]
+return datoVOtmp
+end

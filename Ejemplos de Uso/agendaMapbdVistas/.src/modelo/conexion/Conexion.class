@@ -1,0 +1,37 @@
+' Gambas class file
+
+''NOTE: Realizado con MapBd-Vistas. version 0.2.97  Fecha: 2015-02-18 21:09:54
+Public hconn As New Connection
+Public NombreBaseDatos As String = user.home & "/AgendaPersonalTest/nombresyapellidos.sqlite"
+
+Public Function conexion()
+  ' hace la conexion a la base de datos
+
+  Dim rutabd As String
+
+  rutabd = File.Dir(User.home & Replace(NombreBaseDatos, User.home, ""))
+  'comprueba que exista ruta
+  If Not Exist(rutabd) Then
+    Mkdir rutabd
+  Endif
+  'comprueba que exista fichero de bd
+  If Not Exist(rutabd &/ file.name(NombreBaseDatos)) Then
+    application.busy = 1
+    Try Copy "nombresyapellidos.tar.gz" To rutabd &/ "nombresyapellidos.tar.gz"
+    Shell "cd " & rutabd & ";tar xzvf " & rutabd &/ "nombresyapellidos.tar.gz"
+    Wait 2
+    Try Kill rutabd &/ "nombresyapellidos.tar.gz"
+    application.busy = 0
+  Endif
+  hconn.Name = user.home & "/AgendaPersonalTest/nombresyapellidos.sqlite"
+  hconn.host = user.home & "/AgendaPersonalTest/nombresyapellidos.sqlite"
+  hconn.Type = "Sqlite3"
+  hconn.open
+  Return
+
+End
+
+Public Sub desconectar()
+
+  hconn.close()
+End

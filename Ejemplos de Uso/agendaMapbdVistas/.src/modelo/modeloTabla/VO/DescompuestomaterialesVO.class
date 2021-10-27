@@ -1,0 +1,145 @@
+PROPERTY iddescompuestomaterial AS Integer 
+PRIVATE hiddescompuestomaterial AS Integer
+
+PROPERTY idpresupuesto AS INTEGER 
+PRIVATE hidpresupuesto AS INTEGER
+
+PROPERTY idmaterial AS INTEGER 
+PRIVATE hidmaterial AS INTEGER
+
+PROPERTY medicion AS FLOAT 
+PRIVATE hmedicion AS FLOAT
+
+PROPERTY precio AS FLOAT 
+PRIVATE hprecio AS FLOAT
+
+PROPERTY total AS FLOAT 
+PRIVATE htotal AS FLOAT
+
+PROPERTY comentario AS String 
+PRIVATE hcomentario AS String
+
+PROPERTY idtipo AS INTEGER 
+PRIVATE hidtipo AS INTEGER
+
+PROPERTY campo AS string[] 
+PRIVATE hcampo AS new string[]
+
+PROPERTY campotipo AS string[] 
+PRIVATE hcampotipo AS new string[]
+
+PROPERTY campovisible AS string[] 
+PRIVATE hcampovisible AS new string[]
+
+PRIVATE FUNCTION iddescompuestomaterial_read() AS Integer
+ RETURN hiddescompuestomaterial 
+END 
+ 
+PRIVATE SUB iddescompuestomaterial_write(Valor AS Integer)
+ hiddescompuestomaterial= Valor 
+END  
+ 
+PRIVATE FUNCTION idpresupuesto_read() AS INTEGER
+ RETURN hidpresupuesto 
+END 
+ 
+PRIVATE SUB idpresupuesto_write(Valor AS INTEGER)
+ hidpresupuesto= Valor 
+END  
+ 
+PRIVATE FUNCTION idmaterial_read() AS INTEGER
+ RETURN hidmaterial 
+END 
+ 
+PRIVATE SUB idmaterial_write(Valor AS INTEGER)
+ hidmaterial= Valor 
+END  
+ 
+PRIVATE FUNCTION medicion_read() AS FLOAT
+ RETURN hmedicion 
+END 
+ 
+PRIVATE SUB medicion_write(Valor AS FLOAT)
+ hmedicion= Valor 
+END  
+ 
+PRIVATE FUNCTION precio_read() AS FLOAT
+ RETURN hprecio 
+END 
+ 
+PRIVATE SUB precio_write(Valor AS FLOAT)
+ hprecio= Valor 
+END  
+ 
+PRIVATE FUNCTION total_read() AS FLOAT
+ RETURN htotal 
+END 
+ 
+PRIVATE SUB total_write(Valor AS FLOAT)
+ htotal= Valor 
+END  
+ 
+PRIVATE FUNCTION comentario_read() AS String
+ RETURN hcomentario 
+END 
+ 
+PRIVATE SUB comentario_write(Valor AS String)
+ hcomentario= Valor 
+END  
+ 
+PRIVATE FUNCTION idtipo_read() AS INTEGER
+ RETURN hidtipo 
+END 
+ 
+PRIVATE SUB idtipo_write(Valor AS INTEGER)
+ hidtipo= Valor 
+END  
+ 
+PRIVATE FUNCTION campo_read() AS string[]
+ RETURN hcampo 
+END 
+ 
+PRIVATE SUB campo_write(Valor AS string[])
+ hcampo= Valor 
+END  
+ 
+PRIVATE FUNCTION campotipo_read() AS string[]
+ RETURN hcampotipo 
+END 
+ 
+PRIVATE SUB campotipo_write(Valor AS string[])
+ hcampotipo= Valor 
+END  
+ 
+PRIVATE FUNCTION campovisible_read() AS string[]
+ RETURN hcampovisible 
+END 
+ 
+PRIVATE SUB campovisible_write(Valor AS string[])
+ hcampovisible= Valor 
+END  
+ 
+PUBLIC FUNCTION ConvertirVOaColeccion(dato as DescompuestomaterialesVO) AS collection
+Dim colecciontmp as new collection
+colecciontmp.add(dato.iddescompuestomaterial,"iddescompuestomaterial")
+colecciontmp.add(dato.idpresupuesto,"idpresupuesto")
+colecciontmp.add(dato.idmaterial,"idmaterial")
+colecciontmp.add(dato.medicion,"medicion")
+colecciontmp.add(dato.precio,"precio")
+colecciontmp.add(dato.total,"total")
+colecciontmp.add(dato.comentario,"comentario")
+colecciontmp.add(dato.idtipo,"idtipo")
+return colecciontmp
+end
+PUBLIC FUNCTION ConvertirColeccionaVO(dato as collection) AS DescompuestomaterialesVO
+Dim datoVOtmp as new DescompuestomaterialesVO
+try datoVOtmp.iddescompuestomaterial=dato["iddescompuestomaterial"]
+try datoVOtmp.idpresupuesto=dato["idpresupuesto"]
+try datoVOtmp.idmaterial=dato["idmaterial"]
+try datoVOtmp.medicion=dato["medicion"]
+try datoVOtmp.precio=dato["precio"]
+try datoVOtmp.total=dato["total"]
+try datoVOtmp.comentario=dato["comentario"]
+try datoVOtmp.idtipo=dato["idtipo"]
+return datoVOtmp
+end

@@ -1,0 +1,158 @@
+PROPERTY idpresupuesto AS string 
+PRIVATE hidpresupuesto AS string
+
+PROPERTY cliente AS string 
+PRIVATE hcliente AS string
+
+PROPERTY claveasignada AS string 
+PRIVATE hclaveasignada AS string
+
+PROPERTY actualizarprecios AS string 
+PRIVATE hactualizarprecios AS string
+
+PROPERTY fecha AS string 
+PRIVATE hfecha AS string
+
+PROPERTY descripcioncorta AS string 
+PRIVATE hdescripcioncorta AS string
+
+PROPERTY estado AS string 
+PRIVATE hestado AS string
+
+PROPERTY valorcalculado AS string 
+PRIVATE hvalorcalculado AS string
+
+PROPERTY valorasignado AS string 
+PRIVATE hvalorasignado AS string
+
+PROPERTY campo AS string[] 
+PRIVATE hcampo AS new string[]
+
+PROPERTY campotipo AS string[] 
+PRIVATE hcampotipo AS new string[]
+
+PROPERTY campovisible AS string[] 
+PRIVATE hcampovisible AS new string[]
+
+PRIVATE FUNCTION idpresupuesto_read() AS string
+ RETURN hidpresupuesto 
+END 
+ 
+PRIVATE SUB idpresupuesto_write(Valor AS string)
+ hidpresupuesto= Valor 
+END  
+ 
+PRIVATE FUNCTION cliente_read() AS string
+ RETURN hcliente 
+END 
+ 
+PRIVATE SUB cliente_write(Valor AS string)
+ hcliente= Valor 
+END  
+ 
+PRIVATE FUNCTION claveasignada_read() AS string
+ RETURN hclaveasignada 
+END 
+ 
+PRIVATE SUB claveasignada_write(Valor AS string)
+ hclaveasignada= Valor 
+END  
+ 
+PRIVATE FUNCTION actualizarprecios_read() AS string
+ RETURN hactualizarprecios 
+END 
+ 
+PRIVATE SUB actualizarprecios_write(Valor AS string)
+ hactualizarprecios= Valor 
+END  
+ 
+PRIVATE FUNCTION fecha_read() AS string
+ RETURN hfecha 
+END 
+ 
+PRIVATE SUB fecha_write(Valor AS string)
+ hfecha= Valor 
+END  
+ 
+PRIVATE FUNCTION descripcioncorta_read() AS string
+ RETURN hdescripcioncorta 
+END 
+ 
+PRIVATE SUB descripcioncorta_write(Valor AS string)
+ hdescripcioncorta= Valor 
+END  
+ 
+PRIVATE FUNCTION estado_read() AS string
+ RETURN hestado 
+END 
+ 
+PRIVATE SUB estado_write(Valor AS string)
+ hestado= Valor 
+END  
+ 
+PRIVATE FUNCTION valorcalculado_read() AS string
+ RETURN hvalorcalculado 
+END 
+ 
+PRIVATE SUB valorcalculado_write(Valor AS string)
+ hvalorcalculado= Valor 
+END  
+ 
+PRIVATE FUNCTION valorasignado_read() AS string
+ RETURN hvalorasignado 
+END 
+ 
+PRIVATE SUB valorasignado_write(Valor AS string)
+ hvalorasignado= Valor 
+END  
+ 
+PRIVATE FUNCTION campo_read() AS string[]
+ RETURN hcampo 
+END 
+ 
+PRIVATE SUB campo_write(Valor AS string[])
+ hcampo= Valor 
+END  
+ 
+PRIVATE FUNCTION campotipo_read() AS string[]
+ RETURN hcampotipo 
+END 
+ 
+PRIVATE SUB campotipo_write(Valor AS string[])
+ hcampotipo= Valor 
+END  
+ 
+PRIVATE FUNCTION campovisible_read() AS string[]
+ RETURN hcampovisible 
+END 
+ 
+PRIVATE SUB campovisible_write(Valor AS string[])
+ hcampovisible= Valor 
+END  
+ 
+PUBLIC FUNCTION ConvertirVOaColeccion(dato as VistaPresupuestoVO) AS collection
+Dim colecciontmp as new collection
+colecciontmp.add(dato.idpresupuesto,"idpresupuesto")
+colecciontmp.add(dato.cliente,"cliente")
+colecciontmp.add(dato.claveasignada,"claveasignada")
+colecciontmp.add(dato.actualizarprecios,"actualizarprecios")
+colecciontmp.add(dato.fecha,"fecha")
+colecciontmp.add(dato.descripcioncorta,"descripcioncorta")
+colecciontmp.add(dato.estado,"estado")
+colecciontmp.add(dato.valorcalculado,"valorcalculado")
+colecciontmp.add(dato.valorasignado,"valorasignado")
+return colecciontmp
+end
+PUBLIC FUNCTION ConvertirColeccionaVO(dato as collection) AS VistaPresupuestoVO
+Dim datoVOtmp as new VistaPresupuestoVO
+try datoVOtmp.idpresupuesto=dato["idpresupuesto"]
+try datoVOtmp.cliente=dato["cliente"]
+try datoVOtmp.claveasignada=dato["claveasignada"]
+try datoVOtmp.actualizarprecios=dato["actualizarprecios"]
+try datoVOtmp.fecha=dato["fecha"]
+try datoVOtmp.descripcioncorta=dato["descripcioncorta"]
+try datoVOtmp.estado=dato["estado"]
+try datoVOtmp.valorcalculado=dato["valorcalculado"]
+try datoVOtmp.valorasignado=dato["valorasignado"]
+return datoVOtmp
+end

@@ -1,0 +1,137 @@
+' Gambas class file
+
+Private manejadorEnfermo As New EnfermoDAO
+Private manejadorExpediente As New ExpedienteDAO
+
+Public Sub Form_Open()
+
+  Mostrar()
+
+End
+
+Public Sub ButtonSalir_Click()
+
+  Me.Close()
+
+End
+
+Public Sub Mostrar()
+
+  manejadorEnfermo.MostrarGridView(GridViewEnfermo)
+  manejadorEnfermo.ColorFilaImPar = Color.White
+  manejadorEnfermo.ColorFilaPar = Color.LightGray
+
+End
+
+'-------------------------------------
+'operaciones
+'-------------------------------------
+
+Public Sub Agregar_Click()
+
+  manejadorEnfermo.FormularioRegistrar(1)
+  Mostrar()
+
+End
+
+Public Sub Editar_Click()
+
+  Dim tmpRegistro As EnfermoVO
+  Dim devuelve As Boolean
+
+  tmpRegistro = manejadorEnfermo.filaSeleccionadaVO()
+
+  If IsNull(tmpRegistro) Then
+    Return
+  Else
+
+    devuelve = manejadorEnfermo.FormularioModificarRegistroId(tmpRegistro.id, tmpRegistro, 1)
+
+    If devuelve Then
+      Mostrar()
+
+    Endif
+
+  Endif
+
+End
+
+Public Sub Buscar_Click()
+
+  Dim texto As String
+  Dim resultadobusqueda As Result
+
+  Dim listaEnfermos As EnfermoVO[]
+
+  texto = InputBox("Introduzca IdEnfermo (nif) o parte de el:")
+
+  If texto = "" Then
+    Return
+  Endif
+
+  If IsNumber(texto) Then
+    resultadobusqueda = manejadorEnfermo.BuscarIgualIdEnfermo(texto)
+  Else
+    Message.Info("Debe de introducir un numero")
+    Return
+
+  Endif
+
+  If IsNull(resultadobusqueda) Or resultadobusqueda.count = 0 Then
+    Message.Info("No hay registro que coincidan")
+  Else
+    'listaEnfermos = manejadorEnfermo.ConvertirResult(resultadobusqueda)
+
+    manejadorEnfermo.MostrarGridView(GridViewEnfermo,, resultadobusqueda)
+
+  Endif
+
+End
+
+Public Sub Borrar_Click()
+
+  Dim tmpRegistro As EnfermoVO
+
+  tmpRegistro = manejadorEnfermo.filaSeleccionadaVO()
+
+  If IsNull(tmpRegistro) Then
+    Return
+  Else
+    manejadorEnfermo.BorrarId(tmpRegistro.id)
+    'tambien hay que borrar el expediente....
+    manejadorExpediente.BuscarIgualIdEnfermo(tmpRegistro.idenfermo)
+    Mostrar()
+  Endif
+
+End
+
+Public Sub Quitarfiltro_Click()
+
+  Mostrar()
+
+End
+
+'--------------------------------------------
+Public Sub VerExpediente_Click()
+
+  Dim tmpRegistro As EnfermoVO
+
+  tmpRegistro = manejadorEnfermo.filaSeleccionadaVO()
+
+  If IsNull(tmpRegistro) Then
+    Return
+  Else
+    abrirExpediente(tmpRegistro)
+  Endif
+
+End
+
+Public Sub abrirExpediente(persona As EnfermoVO)
+
+  Dim fexp As New FormExpediente
+
+  fexp.Title = "Nombre: " & persona.nombre & " " & persona.apellido & " IdEnfermo: " & persona.idenfermo
+  fexp.enfermo = persona
+  fexp.show()
+
+End

@@ -1,0 +1,30 @@
+' Gambas class file
+
+Inherits PrincipalDAO
+
+Public Function GeneradorCodigoFormulario(tipo As String, Optional datosEditar As PrincipalVO) As String
+  
+  Dim codigocampos As String
+  
+  If tipo = "registrar" Then 
+    codigocampos &= "null|idprincipal|null;"
+    codigocampos &= "textbox|nombre|" & ("nombre") & "|;"
+    codigocampos &= "textbox|apellido|" & ("apellido") & "|;"
+    codigocampos &= "textbox|dni|" & ("dni") & "|;"
+    codigocampos &= "labelbox|" & ("Otros Datos") & ";" ''Nota: linea nueva
+    codigocampos &= "valuebox|movil|" & ("movil") & "|0;"
+    codigocampos &= "textbox|email|" & ("email") & "|;"
+    codigocampos &= "textbox|domicilio|" & ("domicilio") & "|;"
+  Else
+    codigocampos &= "null|idprincipal|null;"
+    codigocampos &= "textbox|nombre|" & ("nombre") & "|" & datosEditar.nombre & ";"
+    codigocampos &= "textbox|apellido|" & ("apellido") & "|" & datosEditar.apellido & ";"
+    codigocampos &= "textbox|dni|" & ("dni") & "|" & datosEditar.dni & ";"
+    codigocampos &= "labelbox|" & ("Otros Datos") & ";" ''Nota: linea nueva
+    codigocampos &= "valuebox|movil|" & ("movil") & "|" & datosEditar.movil & ";"
+    codigocampos &= "textbox|email|" & ("email") & "|" & datosEditar.email & ";"
+    codigocampos &= "textbox|domicilio|" & ("domicilio") & "|" & datosEditar.domicilio & ";"
+  Endif
+  Return codigocampos
+  
+End

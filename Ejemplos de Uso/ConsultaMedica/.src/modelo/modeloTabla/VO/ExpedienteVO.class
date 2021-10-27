@@ -1,0 +1,143 @@
+' Gambas class file
+
+Property id As Integer
+Private hid As Integer
+
+Property idenfermo As Integer
+Private hidenfermo As Integer
+
+Property enfermedad As String
+Private henfermedad As String
+
+Property tratamiento As String
+Private htratamiento As String
+
+Property campo As String[]
+Private hcampo As New String[]
+
+Property campotipo As String[]
+Private hcampotipo As New String[]
+
+Property campovisible As String[]
+Private hcampovisible As New String[]
+
+Private Function id_read() As Integer
+
+  Return hid
+
+End
+
+Private Sub id_write(Valor As Integer)
+
+  hid = Valor
+
+End
+
+Private Function idenfermo_read() As Integer
+
+  Return hidenfermo
+
+End
+
+Private Sub idenfermo_write(Valor As Integer)
+
+  hidenfermo = Valor
+
+End
+
+Private Function enfermedad_read() As String
+
+  Return henfermedad
+
+End
+
+Private Sub enfermedad_write(Valor As String)
+
+  henfermedad = Valor
+
+End
+
+Private Function tratamiento_read() As String
+
+  Return htratamiento
+
+End
+
+Private Sub tratamiento_write(Valor As String)
+
+  htratamiento = Valor
+
+End
+
+Private Function campo_read() As String[]
+
+  Return hcampo
+
+End
+
+Private Sub campo_write(Valor As String[])
+
+  hcampo = Valor
+
+End
+
+Private Function campotipo_read() As String[]
+
+  Return hcampotipo
+
+End
+
+Private Sub campotipo_write(Valor As String[])
+
+  hcampotipo = Valor
+
+End
+
+Private Function campovisible_read() As String[]
+
+  Return hcampovisible
+
+End
+
+Private Sub campovisible_write(Valor As String[])
+
+  hcampovisible = Valor
+
+End
+
+Public Function Copia(Optional dato As ExpedienteVO) As ExpedienteVO
+
+  Dim datoVOtmp As New ExpedienteVO
+  Dim datoVOtmpOriginal As ExpedienteVO
+
+  If IsNull(dato) Then
+    dato = Me 'se copia a si mismo
+  Endif
+  datoVOtmp.id = dato.id
+  datoVOtmp.idenfermo = dato.idenfermo
+  datoVOtmp.enfermedad = dato.enfermedad
+  datoVOtmp.tratamiento = dato.tratamiento
+  Return datoVOtmp
+
+End
+
+Public Function ConvertirVOaColeccion(dato As ExpedienteVO) As Collection
+
+  Dim colecciontmp As New Collection
+  colecciontmp.add(dato.id, "id")
+  colecciontmp.add(dato.idenfermo, "idenfermo")
+  colecciontmp.add(dato.enfermedad, "enfermedad")
+  colecciontmp.add(dato.tratamiento, "tratamiento")
+  Return colecciontmp
+
+End
+
+Public Function ConvertirColeccionaVO(dato As Collection) As ExpedienteVO
+
+  Dim datoVOtmp As New ExpedienteVO
+  Try datoVOtmp.id = dato["id"]
+Try datoVOtmp.idenfermo = dato["idenfermo"]
+Try datoVOtmp.enfermedad = dato["enfermedad"]
+Try datoVOtmp.tratamiento = dato["tratamiento"]
+Return datoVOtmp
+End
