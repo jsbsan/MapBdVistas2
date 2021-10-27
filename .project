@@ -1,0 +1,30 @@
+# Gambas Project File 3.0
+# Compiled with Gambas 3.5.4
+Title=MapBdVistas
+Startup=FMain
+Icon=iconobd.png
+Version=0.2.99920
+Component=gb.image
+Component=gb.qt4
+Component=gb.form
+Component=gb.db
+Component=gb.db.form
+Component=gb.db.sqlite3
+Component=gb.desktop
+Component=gb.net
+Component=gb.net.curl
+Component=gb.qt4.ext
+Description="Unificacion MapBd y MapVistas. FrameWork para trabajar con bases de datos sqlite3 con tablas y vistas"
+Authors="Julio Sanchez Berro"
+TabSize=2
+Maintainer=Julio Sánchez Berro
+Address=jusabejusabe@gmail.com
+Url=http://jsbsan.blogspot.com.es/
+License=General Public License
+PackageName=mapbdvistas-0.2.99920
+CreateEachDirectory=1
+Packager=1
+Systems=debian
+Menus=debian:"Applications/Programming"
+Categories=debian:"Development"
+Groups=debian:"admin"

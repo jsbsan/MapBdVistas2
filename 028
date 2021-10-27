@@ -1,0 +1,4 @@
+Nuevo metodo:
+PUBLIC FUNCTION mostrarRegistroVO(objetoVO As VO, grid AS GridView) AS Result" -> para el gridview definido como datos horizotnales (1 registro mostrado)
+
+Resuelto ancho del grid Horizontal de datos, para que se muestren con el ancho adecuado.

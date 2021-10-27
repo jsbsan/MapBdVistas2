@@ -1,0 +1,29 @@
+' Gambas class file
+
+Public Sub Button1_Click()
+
+  Me.Close
+
+End
+
+Public Sub Form_Open()
+
+  Dim lineas As String[]
+  Dim contenido As String
+
+  Shell "find " & User.home & "/temporal -name '*.class' -o -name '*.module' | xargs wc -l" To contenido
+
+  TextAreaInforme.text = contenido
+  lineas = Split(contenido, "\n")
+  LabelTOTAL.text = "Número de lineas de código generadas: " & lineas[lineas.max - 1]
+  LabelTOTALarchivos.text = "Número de clases y módulos creados: " & Str$(lineas.max - 1)
+
+  If lineas[lineas.max - 1] = 0 Or lineas.max - 1 = 0 Then
+    LabelConclusion.text = "Se han producido errores en la creación de las clases"
+    LabelConclusion.Foreground = Color.red
+    LabelConclusion.Background = Color.White
+  Endif
+
+  Me.center
+
+End

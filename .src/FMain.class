@@ -1,0 +1,354 @@
+' Gambas class file
+
+Private ruta As String = User.home & "/temporal"
+Private datos As New Collection 'se guardan las vistas, campos,tipo de campos y ruta
+
+Private nombreBaseDeDatos As String
+Private rutabasededatos As String
+
+Public contenidoTablasVistas As String
+
+Private generarSVG As New GenerarDiagramaSVG
+
+Public Sub _new()
+
+End
+
+Public Sub Form_Open()
+
+  VSplit1.Layout = [1, 5, 5]
+  TextBoxRuta.text = ruta
+
+  'borrado de el directorio temporal para iniciar el trabajo
+  Shell "rm -r -f " & ruta Wait 'borro el directorio temporal 0.2.98
+
+  'creando rutas para vistas y tablas
+
+  creaDirectorio(ruta)
+  creaDirectorio(ruta & "/.src")
+  creaDirectorio(ruta & "/.src/modelo")
+  creaDirectorio(ruta & "/.src/modelo/modeloVista")
+
+  creaDirectorio(ruta & "/.src/modelo/modeloVista/VistasVO")
+
+  creaDirectorio(ruta & "/.src/modelo/modeloVista/VistasDAO")
+
+  'tablas...
+
+  creaDirectorio(ruta & "/.src/modelo/modeloTabla")
+  creaDirectorio(ruta & "/.src/modelo/conexion")
+  creaDirectorio(ruta & "/.src/modelo/modeloTabla/VO")
+  creaDirectorio(ruta & "/.src/modelo/modeloTabla/DAO")
+
+  Labelversion.text = "Versión: " & Application.Version
+  Me.Center
+
+End
+
+Public Sub creaDirectorio(directorio As String)
+
+  If Exist(directorio) Then
+    Return
+  Else
+    Mkdir directorio
+    Wait 0.1 'para que le de tiempo a crearlo al sistema
+  Endif
+
+End
+
+Public Sub ButtonAnalizar_Click()
+
+  ButtonAnalizarDato()
+
+End
+
+Public Function ButtonAnalizarDato() As String 'devuelve si era tabla o vista '_Click()
+
+  Dim textos As String
+  Dim b As Integer
+  Dim vista As String
+  Dim tabla As String
+
+  If TextAreaUnaVista.text = "" Then
+    ' Message.Info("Tiene que poner la descricion que da la orden .schema de una tabla")
+    Return
+
+  Endif
+
+  TextAreaTipos.text = ""
+
+  datos = New Collection
+  datos = analizar.tarea(TextAreaUnaVista.text)
+  datos.add(TextBoxRuta.text, "ruta")
+
+  'datos["campos"]
+
+  'datos["vistas"]
+  'analiza una vista por vista
+  Try vista = datos["vista"]
+  If Error Or vista = "" Then
+    'NOTE: añado opcion de que encuentre una tabla!!!
+    'puede que sear una tabla...
+    datos = New Collection
+    datos = analizar.tareaTabla(TextAreaUnaVista.text)
+    datos.add(TextBoxRuta.text, "ruta")
+    Try tabla = datos["tabla"][0]
+    If Error Or tabla = "" Then
+      Return "" 'no he reconocido que es...
+    Else
+      For b = 0 To datos["campos" & comun.primeraMay(tabla)].max
+        'mismo sistema de definicion de vista....
+        textos &= tabla & " " & datos["campos" & comun.primeraMay(tabla)][b] & " " & datos["campostipo" & comun.primeraMay(tabla)][b] & "\n"
+
+      Next
+      TextAreaTipos.text = textos
+      Return "tabla" 'analisis de tabla
+    Endif
+
+    Return 'será una tabla o algo que no pueda analizar
+  Endif
+  For b = 0 To datos["campos" & comun.primeraMay(vista)].max
+    textos &= vista & " " & datos["campos" & comun.primeraMay(vista)][b] & " " & datos["campostipo" & comun.primeraMay(vista)][b] & "\n"
+  Next
+
+  'comprimir la base de datos....
+
+  TextAreaTipos.text = textos
+  Return "vista"
+
+End
+
+Public Sub ButtonGenerarCodigoVista_Click()
+
+  ButtonGenerarCodigoVistaCodigo()
+
+End
+
+Public Sub ButtonGenerarCodigoTablaCodigo()
+  ''NOTE: nota o comentario:generar el codigo de una tabla.....
+
+  ' Dim repiteTipos As Integer
+  Dim a As Integer
+  Dim codigoCampo As String
+  Dim db_tabla_registro As String
+  Dim codigoClaseTabla As String
+  Dim nombretabla As String
+  Dim campo As String[]
+  Dim campotipo As String[] '
+  'lectura del textArea2, y sacar los tipos....
+  '   extraer de cada linea desde tipo al final
+  Dim lineas As String[]
+  Dim n As String
+  Dim tipo As String
+  Dim tipos As New String[]
+
+  If TextAreaTipos.text = "" Then
+    '  Message.Info("Pulsa el 1º botón")
+    Return
+  Endif
+
+  lineas = Split(TextAreaTipos.text, gb.NewLine)
+
+  For a = 0 To lineas.max
+    If lineas[a] <> "" Then
+      n = Mid$(lineas[A], 1, InStr(lineas[A], " ") - 1)
+      tipo = RTrim$(lineas[a])
+      tipo = Mid$(lineas[a], RInStr(lineas[a], " ") + 1)
+      tipos.add(tipo)
+    Endif
+  Next
+  datos.Add(tipos, "campostipos" & comun.primeraMay(n))
+  '
+
+  campotipo = tipos
+  nombretabla = Replace$(datos["tabla"][0], "'", "") ' quita las simple comillas que pone gambas3, cuando edita
+  campo = datos["campos" & comun.primeraMay(nombretabla)]
+
+  'creando codigo de la tabla....
+  codigoCampo = creatabla.propiedades(campo, campotipo)
+  codigoCampo &= creatabla.metodos(campo, campotipo)
+  codigoCampo &= creatabla.FuncionesConsversion(campo, nombretabla)
+
+  db_tabla_registro = nombretabla & "VO" 'se formara una clase con cada tipo de registro
+
+  File.Save(ruta & "/.src/modelo/modeloTabla/VO/" & db_tabla_registro & ".class", codigoCampo)
+  '   numero_lineas_codigo += numero(codigoCampo)
+  codigoClaseTabla = creatabla.codigoClaseTabla(nombretabla, db_tabla_registro, campo, campotipo, File.Name(rutabasededatos), "Sqlite3", rutabasededatos, "Sqlite3", "", "", "")
+  codigoClaseTabla &= creatabla.codigoConversionesResultGridDAO(nombretabla, campo, campotipo)
+  codigoClaseTabla &= creatabla.generaGridaHTML()
+  File.Save(ruta & "/.src/modelo/modeloTabla/DAO/" & nombretabla & "DAO.class", codigoClaseTabla)
+  '   numero_lineas_codigo += numero(codigoClaseTabla)
+  generarSVG.addTabla(nombretabla, campo, campotipo, "tabla")
+
+End
+
+Public Sub ButtonGenerarCodigoVistaCodigo()
+
+  Dim repiteTipos As Integer
+  Dim a As Integer
+  Dim codigoCampo As String
+  Dim db_tabla_registro As String
+  Dim codigoClaseTabla As String
+  Dim nombretabla As String
+  Dim campo As String[]
+  Dim campotipo As String[] '
+  'lectura del textArea2, y sacar los tipos....
+  '   extraer de cada linea desde tipo al final
+  Dim lineas As String[]
+  Dim n As String
+  Dim tipo As String
+  Dim tipos As New String[]
+
+  If TextAreaTipos.text = "" Then
+    '  Message.Info("Pulsa el 1º botón")
+    Return
+  Endif
+
+  lineas = Split(TextAreaTipos.text, gb.NewLine)
+
+  For a = 0 To lineas.max
+    If lineas[a] <> "" Then
+      n = Mid$(lineas[A], 1, InStr(lineas[A], " ") - 1)
+      tipo = RTrim$(lineas[a])
+      tipo = Mid$(lineas[a], RInStr(lineas[a], " ") + 1)
+      tipos.add(tipo)
+    Endif
+  Next
+  datos.Add(tipos, "campostipos" & comun.primeraMay(n))
+  '
+
+  campotipo = tipos
+  nombretabla = Replace(datos["vistas"][0], "'", "") ' añadido 0.2.998 para eliminar comilla simple que ponia gambas3 al editar la tabla
+  campo = datos["campos" & comun.primeraMay(nombretabla)]
+  'campotipo = datos["campostipos" & comun.primeraMay(nombretabla)]
+  campotipo.Clear()
+  For repiteTipos = 0 To campo.max
+    campotipo.add("string")
+  Next
+
+  codigoCampo = creaVista.propiedades(campo, campotipo)
+  codigoCampo &= creaVista.metodos(campo, campotipo)
+  codigoCampo &= creaVista.FuncionesConsversion(campo, nombretabla)
+  codigoClaseTabla = creaVista.codigoClaseVISTA(nombretabla, campo, campotipo)
+  codigoClaseTabla &= creaVista.codigoConversionesResultGridDAO(nombretabla, campo, campotipo)
+  codigoClaseTabla &= creaVista.generaGridaHTML()
+  db_tabla_registro = nombretabla & "VO" 'se formara una clase con cada tipo de registro
+
+  File.Save(ruta & "/.src/modelo/modeloVista/VistasVO/" & db_tabla_registro & ".class", codigoCampo)
+  File.Save(ruta & "/.src/modelo/modeloVista/VistasDAO/" & nombretabla & "DAO.class", codigoClaseTabla)
+  generarSVG.addTabla(nombretabla, campo, campotipo, "vista", TextAreaUnaVista.text)
+
+End
+
+Public Sub ButtonBuscarBaseDeDatos_Click()
+
+  Dim nombrecomprimido As String
+  Dim hconn As New Connection
+  Dim hresult As Result
+  Dim contenido As String
+
+  Dialog.Filter = ["*.sqlite", "sqlite"]
+  If Not Dialog.OpenFile() Then
+
+    hconn.host = Dialog.Path
+    hconn.name = Dialog.Path
+    hconn.type = "Sqlite3"
+    LabelNombreBaseDeDatos.text = "Base de datos .sqlite: " & Dialog.Path
+    Try hconn.Open()
+
+    If Error Then
+      Message.Error("Se ha producido un error al intentar leer la base de datos")
+      Return
+    Endif
+
+    hresult = hconn.Exec("select sql from sqlite_master")
+
+    contenido = ""
+    While hresult.Available
+      contenido &= hresult["sql"] & gb.NewLine
+      hresult.MoveNext
+    Wend
+    contenido = comun.preprocesarContenido(contenido) ''NOTE: Mejora para quitar retornos de carro.
+    TextAreaCompleta.text = contenido
+    rutabasededatos = Dialog.Path
+    'copio la base de datos dentro del proyecto...
+    'Try Copy Dialog.Path To ruta & "/.src" & "/" & File.Name(Dialog.path)
+    Try Copy Dialog.Path To ruta & "/" & File.Name(Dialog.path) 'la base de datos la copio fuera de la carpeta .src, ya que necesitoque este en la carpeta "Datos"
+    ''NOTE: nota o comentario:: ver nombre del fichero...
+    ' Shell "cd " & User.home & ";tar -czfv " & Replace$(Dialog.path, ".sqlite", "") & ".tag.gz " & File.Name(Dialog.path) To espera
+    ' Copy Replace$(Dialog.path, ".sqlite", "") & ".tag.gz"
+    File.Save(ruta & "/.src/modelo/conexion/Conexion.class", creatabla.ModuloBaseDatos(Dialog.path, "Sqlite3", Dialog.path))
+    Try Copy "estructura.html" To ruta & "/" & "estructura.html"
+    Try Copy "FormAutomaticoDinamico.class" To ruta & "/.src/" & "FormAutomaticoDinamico.class"
+    Try Copy "FormAutomaticoDinamico.form" To ruta & "/.src/" & "FormAutomaticoDinamico.form"
+    '------------------------------------------------------------------------------
+    Try Copy "comun1.module" To ruta & "/.src/" & "comun.module"  'Añade copia de modulo comun de funciones 0.2.93
+    '------------------------------------------------------------------------------
+    nombrecomprimido = File.Name(Replace$(Dialog.Path, ".sqlite", "") & ".tar.gz")
+
+    Shell "cd " & File.Dir(Dialog.Path) & ";tar czvf \"" & nombrecomprimido & "\" ./" & File.Name(Dialog.Path)
+    Wait 0.1
+    Shell "mv " & Replace$(Dialog.Path, File.Ext(Dialog.path), "tar.gz") & " " & User.Home & "/temporal/" & File.Name(nombrecomprimido)
+
+  Endif
+
+End
+
+Public Sub ButtonAnalisisCompleto_Click()
+
+  Dim lineasDeCodigo As String[]
+  Dim a As Integer
+  Dim caso As String
+
+  If TextAreaCompleta.text <> "" Then
+    'Analiza Vista
+
+    lineasDeCodigo = Split(TextAreaCompleta.text, gb.NewLine)
+
+    For a = 0 To lineasDeCodigo.max
+      ProgressBar1.Value = a / lineasDeCodigo.max
+      TextAreaUnaVista.text = lineasDeCodigo[a]
+      caso = ButtonAnalizarDato()
+
+      Wait 0.1
+      If caso = "vista" Then
+        'vista
+        ButtonGenerarCodigoVistaCodigo()
+      Else
+        If caso = "tabla" Then
+          'genero codigo de tabla...
+          ButtonGenerarCodigoTablaCodigo()
+
+        Endif
+      Endif
+
+      Wait 0.1
+      contenidoTablasVistas &= "-----------------------------------------" & "\n"
+      contenidoTablasVistas &= TextAreaUnaVista.Text
+      contenidoTablasVistas &= TextAreaTipos.text
+      TextAreaTipos.text = ""
+      TextAreaUnaVista.Text = ""
+    Next
+
+  Endif
+
+  File.Save(ruta & "/EstructuraBD.txt", TextAreaCompleta.text)
+
+  'grafica de las tablas y vistas
+  generarSVG.Generar() 'genera el archivo grafico de la base de datos 0.2.99903
+
+  formInforme.show()
+
+End
+
+Public Sub TextLabel2_MouseDown()
+
+  Desktop.Open("http://mapbdvistas.blogspot.com.es/")
+
+End
+
+Public Sub PictureBoxUpdate_MouseDown()
+
+  ModuleUpdate.comprobar("mapbdvistas", Application.Version, "http://seguimientodeapuestas.blogspot.com.es/2015/04/mapbdvistas.html")
+
+End

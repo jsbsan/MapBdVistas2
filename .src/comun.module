@@ -1,0 +1,86 @@
+' Gambas module file
+
+Public Function Between(Datos As String, Cadena1 As String, Cadena2 As String) As String
+
+  Dim iinf As Integer
+  Dim isup As Integer
+
+  iinf = InStr(Datos, Cadena1) + Len(Cadena1)
+  isup = InStr(Datos, Cadena2, iinf)
+  Return Mid(Datos, iinf, isup - iinf)
+
+End
+'****
+
+Public Function BetweenMays(Datos As String, Cadena1 As String, Cadena2 As String) As String
+
+  Dim iinf As Integer
+  Dim isup As Integer
+
+  iinf = InStr(Upper$(Datos), Upper$(Cadena1)) + Len(Cadena1)
+  isup = InStr(Upper$(Datos), Upper$(Cadena2), iinf)
+  Return Mid(Datos, iinf, isup - iinf)
+
+End
+'****
+'
+
+Public Function primeraMay(cadena As String) As String
+
+  Return Mid$(Upper(cadena), 1, 1) & Mid$(cadena, 2, Len(cadena))
+
+End
+
+Public Function preprocesarContenido(contenido As String) As String
+  ''TODO: procesar contenido para poner las ordenes en una sola tabla.
+
+  Dim a As Integer
+  Dim lineas As String[]
+  Dim contenidoCompactado As String
+
+  contenido = Replace(contenido, "\t", " ")
+  'contenido = Replace(contenido, "\n", " ")
+  lineas = Split(contenido, "\n")
+
+  contenidoCompactado = lineas[0] 'la primera linea siempre será una creacion de tabla o vista
+
+  For a = 1 To lineas.Max
+    If lineas[a] = "" Then Continue
+    If lineas[a] = ")" Then
+      contenidoCompactado &= " " & lineas[a]
+      Continue
+    Endif
+    If InStr(Upper$(lineas[a]), "CREATE") = 0 Then
+      'esta linea se añade a la anterior
+      contenidoCompactado &= " " & lineas[a]
+    Else
+      'es una nueva linea
+      contenidoCompactado &= gb.CrLf & lineas[a]
+
+    Endif
+
+  Next
+
+  contenidoCompactado = Replace$(contenidoCompactado, "DEFAULT '1'", "")
+  contenidoCompactado = Replace$(contenidoCompactado, "DEFAULT '0'", "")
+  contenidoCompactado = Replace$(contenidoCompactado, "DEFAULT", "")
+  contenidoCompactado = Replace$(contenidoCompactado, "`", "")
+  contenidoCompactado = Replace$(contenidoCompactado, "\"", "")
+
+  contenidoCompactado = Replace$(contenidoCompactado, "NOT NULL", "")
+
+  'quito espacios sobrantes
+  For a = 1 To 10
+    contenidoCompactado = Replace$(contenidoCompactado, "  ", " ")
+  Next
+
+  Print "-   SIN PROCESAR     -"
+  Print contenido
+  Print "----------------------"
+  Print "-     PROCESADO      -"
+  Print "----------------------"
+  Print contenidoCompactado
+  Print "----------------------"
+  Return contenidoCompactado
+
+End
